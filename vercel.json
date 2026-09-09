@@ -1,0 +1,7 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "buildCommand": "echo Sem build: o app e HTML estatico",
+  "outputDirectory": "kit-festa",
+  "cleanUrls": true
+}
