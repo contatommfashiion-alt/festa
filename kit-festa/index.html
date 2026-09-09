@@ -1,0 +1,554 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kit Festa · renda extra com kits a partir de R$50</title>
+<style>
+:root{
+  --creme:#FBF3EC; --papel:#FFFFFF; --cereja:#C43A5A; --cereja2:#D9556F; --cereja-bg:#FBE6EC;
+  --caramelo:#B5772E; --caramelo-lt:#E8C48A; --caramelo-bg:#F8ECD8;
+  --tinta:#3A2620; --tinta2:#8A7168; --linha:#0000000f; --linha2:#00000008;
+  --ok:#3E8E5E; --ok-bg:#E7F2EB; --alerta:#B0742A; --alerta-bg:#FAEFDD;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+  --r:18px; --rg:26px; --sombra:0 2px 6px #0000000c,0 16px 36px #c43a5a14;
+}
+@media (prefers-color-scheme:dark){:root{
+  --creme:#181110; --papel:#211714; --cereja:#F0899F; --cereja2:#F4A2B4; --cereja-bg:#331C22;
+  --caramelo:#E3B36E; --caramelo-lt:#8A6A34; --caramelo-bg:#2C2214;
+  --tinta:#F3E7E1; --tinta2:#B4A099; --linha:#ffffff1a; --linha2:#ffffff0d;
+  --ok:#82C89E; --ok-bg:#18291F; --alerta:#DDB56C; --alerta-bg:#2A2214;
+  --sombra:0 2px 6px #00000033,0 16px 36px #00000044;
+}}
+:root[data-tema="dark"]{
+  --creme:#181110; --papel:#211714; --cereja:#F0899F; --cereja2:#F4A2B4; --cereja-bg:#331C22;
+  --caramelo:#E3B36E; --caramelo-lt:#8A6A34; --caramelo-bg:#2C2214;
+  --tinta:#F3E7E1; --tinta2:#B4A099; --linha:#ffffff1a; --linha2:#ffffff0d;
+  --ok:#82C89E; --ok-bg:#18291F; --alerta:#DDB56C; --alerta-bg:#2A2214;
+  --sombra:0 2px 6px #00000033,0 16px 36px #00000044;
+}
+:root[data-tema="light"]{
+  --creme:#FBF3EC; --papel:#FFFFFF; --cereja:#C43A5A; --cereja2:#D9556F; --cereja-bg:#FBE6EC;
+  --caramelo:#B5772E; --caramelo-lt:#E8C48A; --caramelo-bg:#F8ECD8;
+  --tinta:#3A2620; --tinta2:#8A7168; --linha:#0000000f; --linha2:#00000008;
+  --ok:#3E8E5E; --ok-bg:#E7F2EB; --alerta:#B0742A; --alerta-bg:#FAEFDD;
+  --sombra:0 2px 6px #0000000c,0 16px 36px #c43a5a14;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0;overflow-x:hidden}
+body{background:var(--creme);color:var(--tinta);font-family:var(--sans);font-size:16px;line-height:1.55;
+  -webkit-font-smoothing:antialiased;padding:0 0 calc(96px + env(safe-area-inset-bottom))}
+.pag{max-width:600px;margin:0 auto;padding:0 20px}
+h1,h2,h3{margin:0}
+.disp{font-family:var(--serif);font-weight:700;font-size:clamp(1.9rem,7vw,2.5rem);line-height:1.12;letter-spacing:-.015em;text-wrap:balance}
+.disp em{font-style:italic;color:var(--cereja)}
+.h2{font-family:var(--serif);font-weight:700;font-size:1.4rem;letter-spacing:-.01em}
+.lead{color:var(--tinta2);font-size:1.02rem;margin:0 0 22px}
+.peq{font-size:.87rem;line-height:1.55;color:var(--tinta2);margin:0}
+.mini{font-size:.74rem;color:var(--tinta2)}
+.num{font-variant-numeric:tabular-nums}
+p{margin:0 0 12px}
+.rotulo{font-size:.68rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--cereja);display:block}
+.secao{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:26px 0 12px}
+.secao .h2{font-size:1.25rem}
+
+button{font:inherit;cursor:pointer;color:inherit}
+.btn{display:block;width:100%;background:var(--cereja);color:#fff;border:0;border-radius:99px;padding:17px 22px;
+  font-size:1rem;font-weight:700;min-height:56px;margin-bottom:10px;box-shadow:0 8px 20px #c43a5a40;transition:transform .16s,opacity .2s}
+.btn:active{transform:scale(.98)}
+.btn[disabled]{opacity:.4;box-shadow:none;cursor:not-allowed}
+.btn.ghost{background:transparent;color:var(--tinta);border:1.5px solid var(--linha);box-shadow:none}
+.btn.gold{background:linear-gradient(96deg,var(--caramelo),#CF9440);box-shadow:0 8px 20px #b5772e40}
+.btn.mini{width:auto;display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:10px 16px;font-size:.88rem;margin:0;box-shadow:none}
+
+.card{background:var(--papel);border:1px solid var(--linha);border-radius:var(--rg);padding:20px;margin-bottom:12px;box-shadow:var(--sombra)}
+.aviso{border-radius:var(--r);padding:14px 16px;margin-bottom:12px;font-size:.87rem;line-height:1.5}
+.aviso b{display:block;font-weight:700;margin-bottom:3px}
+.aviso.o{background:var(--ok-bg);color:var(--ok)} .aviso.a{background:var(--alerta-bg);color:var(--alerta)}
+
+/* card de kit */
+.kit{background:var(--papel);border:1px solid var(--linha);border-radius:var(--rg);padding:0;margin-bottom:12px;
+  box-shadow:var(--sombra);overflow:hidden;width:100%;text-align:left;transition:transform .16s}
+.kit:active{transform:scale(.99)}
+.kit .capa{position:relative;width:100%;aspect-ratio:16/10;background:linear-gradient(150deg,var(--cereja-bg),var(--caramelo-bg));
+  display:flex;align-items:center;justify-content:center;overflow:hidden}
+.kit .capa img{width:100%;height:100%;object-fit:cover}
+.kit .capa .ph{font-size:2.6rem;opacity:.8}
+.kit .capa .badge{position:absolute;top:10px;left:10px;background:#ffffffe6;color:#3a2620;font-size:.66rem;font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;padding:5px 10px;border-radius:99px}
+.kit .capa .semfoto{position:absolute;bottom:10px;right:10px;background:#ffffffe6;color:var(--cereja);font-size:.72rem;
+  font-weight:700;padding:6px 11px;border-radius:99px;display:inline-flex;align-items:center;gap:5px}
+.kit .info{padding:14px 18px}
+.kit .nome{font-family:var(--serif);font-weight:700;font-size:1.2rem;margin:0 0 2px}
+.kit .desc{font-size:.85rem;color:var(--tinta2);line-height:1.4}
+.kit .rodape{display:flex;align-items:center;justify-content:space-between;padding:0 18px 14px}
+.kit .preco{font-family:var(--serif);font-weight:700;font-size:1.15rem}
+.kit .lucro{background:var(--ok-bg);color:var(--ok);font-size:.82rem;font-weight:700;padding:6px 12px;border-radius:99px}
+
+/* foto grande no detalhe */
+.fotoBig{position:relative;width:100%;aspect-ratio:16/10;border-radius:var(--rg);overflow:hidden;margin-bottom:14px;
+  background:linear-gradient(150deg,var(--cereja-bg),var(--caramelo-bg));display:flex;align-items:center;justify-content:center;box-shadow:var(--sombra)}
+.fotoBig img{width:100%;height:100%;object-fit:cover}
+.fotoBig .ph{font-size:3.4rem;opacity:.8}
+.fotoBig .acoes{position:absolute;bottom:10px;right:10px;display:flex;gap:8px}
+.fotoBig .acoes label,.fotoBig .acoes button{background:#ffffffe8;color:var(--cereja);border:0;border-radius:99px;
+  padding:9px 15px;font-size:.82rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px;box-shadow:0 4px 12px #0000001f}
+input[type=file]{display:none}
+
+/* calculadora */
+.calc .row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 0;border-bottom:1px solid var(--linha2)}
+.calc .row:last-child{border-bottom:0}
+.calc .lb{font-size:.95rem}.calc .lb small{display:block;font-size:.76rem;color:var(--tinta2)}
+.moeda{display:flex;align-items:center;background:var(--creme);border:1px solid var(--linha);border-radius:12px;padding:0 12px;flex:0 0 130px}
+.moeda span{color:var(--tinta2);font-size:.9rem}
+.moeda input{border:0;background:none;color:var(--tinta);font:inherit;font-size:1.05rem;font-weight:700;width:100%;
+  padding:12px 4px;outline:none;text-align:right;font-variant-numeric:tabular-nums;min-width:0}
+.campo{width:100%;border:1px solid var(--linha);background:var(--papel);border-radius:12px;padding:13px 15px;font:inherit;
+  color:var(--tinta);outline:none;margin-bottom:10px}
+.campo:focus{border-color:var(--cereja)}
+textarea.campo{min-height:90px;resize:vertical;line-height:1.5}
+
+.lucroBox{background:linear-gradient(160deg,var(--cereja),#9E2A45);color:#fff;border-radius:var(--rg);padding:22px;text-align:center;margin:14px 0}
+.lucroBox .cap{font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;opacity:.85}
+.lucroBox .big{font-family:var(--serif);font-weight:800;font-size:2.8rem;line-height:1.05;margin:4px 0 2px;font-variant-numeric:tabular-nums}
+.lucroBox .sub{font-size:.9rem;opacity:.9}
+.split{display:flex;height:34px;border-radius:10px;overflow:hidden;margin:12px 0 4px}
+.split span{display:flex;align-items:center;justify-content:center;color:#fff;font-size:.74rem;font-weight:700}
+
+.item-linha{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--linha2)}
+.item-linha:last-child{border-bottom:0}
+.item-linha .q{flex:0 0 auto;font-weight:700;color:var(--cereja);font-variant-numeric:tabular-nums;min-width:44px}
+.item-linha .n{flex:1;min-width:0}
+.item-linha .ver{flex:0 0 auto;background:var(--cereja-bg);color:var(--cereja);border:0;border-radius:99px;padding:7px 13px;font-size:.8rem;font-weight:600}
+
+details.rec{background:var(--papel);border:1px solid var(--linha);border-radius:var(--r);margin-bottom:10px;box-shadow:var(--sombra);overflow:hidden}
+details.rec>summary{padding:15px 18px;cursor:pointer;list-style:none;display:flex;align-items:center;gap:12px;min-height:54px;font-weight:700}
+details.rec>summary::-webkit-details-marker{display:none}
+details.rec>summary .em{font-size:1.3rem}
+details.rec>summary::after{content:"";width:8px;height:8px;border-right:2px solid var(--cereja);border-bottom:2px solid var(--cereja);transform:rotate(45deg);margin-left:auto;transition:transform .25s}
+details.rec[open]>summary::after{transform:rotate(-135deg)}
+details.rec .in{padding:0 18px 18px}
+details.rec .in h4{margin:8px 0 4px;font-size:.82rem;letter-spacing:.08em;text-transform:uppercase;color:var(--caramelo)}
+details.rec .in ul{margin:0 0 8px;padding-left:20px}details.rec .in li{margin-bottom:3px;font-size:.9rem}
+details.rec .in p{font-size:.9rem;margin:0}
+
+nav{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom));
+  background:color-mix(in srgb,var(--papel) 92%,transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border:1px solid var(--linha);border-radius:99px;display:flex;padding:6px;gap:2px;z-index:30;box-shadow:0 10px 30px #c43a5a1f;max-width:calc(100vw - 24px)}
+nav button{background:none;border:0;color:var(--tinta2);font-size:.64rem;font-weight:600;display:flex;flex-direction:column;
+  align-items:center;gap:3px;padding:8px 13px;border-radius:99px;min-height:52px;min-width:70px;transition:all .2s}
+nav button i{font-style:normal;font-size:1.05rem}nav button[aria-current="true"]{background:var(--cereja-bg);color:var(--cereja)}
+
+.topo{position:sticky;top:0;z-index:15;background:color-mix(in srgb,var(--creme) 88%,transparent);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--linha2);
+  display:flex;align-items:center;justify-content:space-between;padding:12px 20px}
+.topo .marca{font-family:var(--serif);font-weight:700;font-size:1.05rem}
+.topo button{background:none;border:0;color:var(--tinta2);font-size:1.05rem;width:38px;height:38px;border-radius:99px}
+.back{display:inline-flex;align-items:center;gap:6px;background:none;border:0;color:var(--cereja);font-weight:600;font-size:.9rem;padding:8px 0;margin-bottom:4px}
+
+.toast{position:fixed;left:50%;bottom:92px;transform:translateX(-50%);background:var(--tinta);color:var(--creme);
+  padding:13px 20px;border-radius:99px;font-size:.86rem;z-index:60;max-width:88vw;text-align:center;opacity:0;pointer-events:none;transition:opacity .25s}
+.toast.on{opacity:1}
+.rodape{margin:34px 0 0;padding:18px 0 0;border-top:1px solid var(--linha);font-size:.72rem;line-height:1.6;color:var(--tinta2)}
+@keyframes sobe{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.anima>*{animation:sobe .5s cubic-bezier(.2,.7,.3,1) backwards}
+.anima>*:nth-child(2){animation-delay:.05s}.anima>*:nth-child(3){animation-delay:.1s}.anima>*:nth-child(n+4){animation-delay:.15s}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media print{nav,.topo,.btn,.toast,button,label{display:none!important}body{padding:0}}
+</style>
+</head>
+<body>
+
+<div class="topo" id="topo" hidden>
+  <span class="marca" id="topoMarca"></span>
+  <button onclick="trocarTema()" aria-label="Tema claro/escuro">◐</button>
+</div>
+
+<!-- CAPA -->
+<section data-tela="capa" class="pag anima" hidden style="padding-top:8vh">
+  <span class="rotulo" id="cMarca"></span>
+  <h1 class="disp" id="cTitulo" style="margin:12px 0 14px"></h1>
+  <p class="lead" id="cSub"></p>
+  <div class="card" style="text-align:center">
+    <div style="font-size:2.2rem">🎂 🧁 🍫 🥟</div>
+    <p class="peq" style="margin:10px 0 0">Monte seus kits, <b style="color:var(--tinta)">bote a foto</b>,
+      veja <b style="color:var(--tinta)">as receitas</b>, o <b style="color:var(--tinta)">preço certo</b> e
+      <b style="color:var(--tinta)">quanto você lucra</b> — a partir de R$50 o kit.</p>
+  </div>
+  <button class="btn" onclick="ir('termo')">Começar minha renda extra</button>
+  <div class="rodape" id="rodape1"></div>
+</section>
+
+<!-- TERMO -->
+<section data-tela="termo" class="pag anima" hidden style="padding-top:22px">
+  <span class="rotulo">Rapidinho, antes</span>
+  <h1 class="disp" style="margin:12px 0 16px">Três verdades <em>honestas</em>.</h1>
+  <div class="aviso a"><b>1. Os custos são estimativa</b>Preço de ingrediente muda de cidade pra cidade. O app deixa
+    você <b>ajustar o custo</b> com os valores do SEU mercado — aí o lucro fica exato.</div>
+  <div class="aviso a"><b>2. Ninguém garante quanto você vai ganhar</b>O app te mostra a conta certa. Quanto você
+    vende depende da sua divulgação. A gente dá a ferramenta, o trabalho é seu.</div>
+  <div class="aviso a"><b>3. Vender comida tem regras</b>Pra vender legalizada, o ideal é MEI + boas práticas de
+    higiene. As regras variam por cidade — procure a sua.</div>
+  <label class="card" style="display:flex;gap:12px;align-items:flex-start;cursor:pointer;margin-top:16px">
+    <input type="checkbox" id="ac" style="display:inline-block;width:22px;height:22px;accent-color:var(--cereja);margin-top:2px;flex:0 0 auto"
+      onchange="document.getElementById('btnAc').disabled=!this.checked">
+    <span class="peq" style="color:var(--tinta)">Entendi. Sei que os custos são estimativa que eu ajusto, e que o
+      resultado depende da minha divulgação.</span>
+  </label>
+  <button class="btn" id="btnAc" disabled onclick="aceitar()">Bora começar</button>
+  <button class="btn ghost" onclick="ir('capa')">Voltar</button>
+</section>
+
+<!-- KITS (home) -->
+<section data-tela="kits" class="pag anima" hidden style="padding-top:16px">
+  <span class="rotulo">Meu catálogo</span>
+  <h1 class="disp" style="margin:8px 0 6px">Seus kits <em>pra vender</em></h1>
+  <p class="lead">Toque num kit pra ver receitas, botar a foto e ajustar o lucro. Ou crie o seu do zero.</p>
+  <button class="btn gold" onclick="novoKit()">＋ Criar meu próprio kit</button>
+  <div id="listaKits" style="margin-top:6px"></div>
+  <div class="rodape" id="rodape2"></div>
+</section>
+
+<!-- KIT (detalhe) -->
+<section data-tela="kit" class="pag anima" hidden style="padding-top:14px">
+  <button class="back" onclick="ir('kits')">‹ Todos os kits</button>
+  <div id="kitCorpo"></div>
+  <div class="rodape" id="rodape3"></div>
+</section>
+
+<!-- CRIAR / EDITAR KIT -->
+<section data-tela="criar" class="pag anima" hidden style="padding-top:14px">
+  <button class="back" onclick="ir('kits')">‹ Cancelar</button>
+  <h1 class="disp" id="criarTitulo" style="margin:6px 0 16px">Criar <em>meu kit</em></h1>
+  <div id="criarFotoWrap"></div>
+  <label class="rotulo" style="margin-top:8px">Nome do kit</label>
+  <input class="campo" id="fNome" placeholder="Ex: Kit Festa da Vovó" maxlength="40">
+  <label class="rotulo">Pra qual ocasião? (opcional)</label>
+  <input class="campo" id="fOcasiao" placeholder="Ex: aniversário, chá de bebê" maxlength="60">
+  <label class="rotulo">O que vem no kit</label>
+  <textarea class="campo" id="fItens" placeholder="Ex:&#10;50 brigadeiros&#10;50 coxinhas&#10;10 bolos de pote"></textarea>
+  <div class="calc card">
+    <div class="row"><span class="lb">Por quanto você vende</span>
+      <div class="moeda"><span>R$</span><input id="fPreco" inputmode="numeric" placeholder="0"></div></div>
+    <div class="row"><span class="lb">Quanto te custa</span>
+      <div class="moeda"><span>R$</span><input id="fCusto" inputmode="numeric" placeholder="0"></div></div>
+  </div>
+  <button class="btn" onclick="salvarMeuKit()">Salvar meu kit</button>
+  <button class="btn ghost" id="btnExcluir" hidden onclick="excluirMeuKit()">Excluir este kit</button>
+</section>
+
+<!-- RECEITAS -->
+<section data-tela="receitas" class="pag anima" hidden style="padding-top:16px">
+  <span class="rotulo">Caderno de receitas</span>
+  <h1 class="disp" style="margin:8px 0 12px">Todas as <em>receitas</em></h1>
+  <div id="listaReceitas"></div>
+  <div class="rodape" id="rodape4"></div>
+</section>
+
+<!-- META -->
+<section data-tela="meta" class="pag anima" hidden style="padding-top:16px">
+  <span class="rotulo">Sua meta</span>
+  <h1 class="disp" style="margin:8px 0 12px">Quantos kits pra <em>bater sua meta?</em></h1>
+  <div class="card"><div class="calc"><div class="row"><span class="lb">Quanto você quer ganhar no mês?</span>
+    <div class="moeda"><span>R$</span><input id="metaVal" inputmode="numeric" value="3000" oninput="renderMeta()"></div></div></div></div>
+  <div id="metaCorpo"></div>
+  <div class="rodape" id="rodape5"></div>
+</section>
+
+<nav id="nav" hidden>
+  <button onclick="ir('kits')" data-nav="kits"><i>🎁</i>Kits</button>
+  <button onclick="ir('receitas')" data-nav="receitas"><i>📖</i>Receitas</button>
+  <button onclick="ir('meta')" data-nav="meta"><i>🎯</i>Meta</button>
+</nav>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* ═══ PERSONALIZE AQUI ═══ */
+const CONFIG = {
+  produto:"Kit Festa",
+  titulo:"Renda extra com <em>kit festa</em> — a partir de R$50.",
+  subtitulo:"Qualquer mulher, dentro de casa. Monte seus kits de doce e salgado, bote a foto, e saiba exatamente por quanto vender pra LUCRAR — não só girar o caixa.",
+  autora:"@seu_arroba",
+};
+
+/* ═══ RECEITAS ═══ */
+const RECEITAS={
+  brigadeiro:{em:"🍫",nome:"Brigadeiro",rende:"~30 unidades",
+    ing:["1 lata de leite condensado","1 colher (sopa) de manteiga","4 colheres (sopa) de chocolate em pó ou achocolatado","Granulado pra enrolar"],
+    modo:"Leve tudo ao fogo baixo mexendo sem parar até desgrudar do fundo. Espere esfriar, enrole e passe no granulado."},
+  beijinho:{em:"🥥",nome:"Beijinho",rende:"~30 unidades",
+    ing:["1 lata de leite condensado","1 colher (sopa) de manteiga","3 colheres (sopa) de coco ralado","Açúcar e cravo pra decorar"],
+    modo:"Cozinhe leite condensado, manteiga e coco até desgrudar. Esfrie, enrole, passe no açúcar e finalize com um cravo."},
+  surpresa:{em:"🍇",nome:"Surpresa de uva",rende:"~25 unidades",
+    ing:["1 receita de massa de beijinho","25 uvas lavadas e secas","Açúcar cristal pra passar"],
+    modo:"Envolva cada uva com um pouco da massa de beijinho, faça uma bolinha e passe no açúcar. Sirva geladinho."},
+  cajuzinho:{em:"🥜",nome:"Cajuzinho",rende:"~30 unidades",
+    ing:["1 lata de leite condensado","1 colher (sopa) de manteiga","100g de amendoim torrado e moído","Açúcar pra passar"],
+    modo:"Cozinhe tudo até desgrudar. Esfrie, modele em formato de cajuzinho e passe no açúcar."},
+  ninho:{em:"🍼",nome:"Docinho de leite Ninho",rende:"~30 unidades",
+    ing:["1 lata de leite condensado","1 colher (sopa) de manteiga","4 colheres (sopa) de leite em pó (Ninho)","Leite em pó extra pra passar"],
+    modo:"Cozinhe até desgrudar. Esfrie, enrole e passe no leite em pó."},
+  bolopote:{em:"🍰",nome:"Bolo de pote",rende:"~8 potes",
+    ing:["1 bolo simples (pronto ou de caixa)","1 lata de leite condensado + creme de leite","Fruta ou recheio a gosto"],
+    modo:"Em cada pote, alterne camadas de bolo esfarelado e recheio. Finalize com recheio por cima e leve à geladeira."},
+  coxinha:{em:"🍗",nome:"Coxinha",rende:"~30 unidades",
+    ing:["2 xíc. de caldo de galinha","2 xíc. de farinha de trigo","Frango cozido e desfiado temperado","Farinha de rosca e ovo pra empanar","Óleo pra fritar"],
+    modo:"Ferva o caldo, acrescente a farinha de uma vez e mexa até formar massa. Modele com recheio, empane e frite até dourar."},
+  kibe:{em:"🥙",nome:"Kibe",rende:"~25 unidades",
+    ing:["2 xíc. de trigo para kibe (hidratado)","400g de carne moída","Cebola, hortelã, sal e temperos","Óleo pra fritar"],
+    modo:"Misture o trigo escorrido com a carne e os temperos até virar massa. Modele, frite ou asse até dourar."},
+  enroladinho:{em:"🌭",nome:"Enroladinho de salsicha",rende:"~20 unidades",
+    ing:["Massa de pão ou massa folhada","Salsichas cortadas ao meio","1 gema pra pincelar"],
+    modo:"Enrole cada pedaço de salsicha na massa, pincele a gema e asse a 180°C até dourar."},
+  pastel:{em:"🥟",nome:"Pastel",rende:"~20 unidades",
+    ing:["Massa de pastel (disco)","Recheio a gosto (carne, queijo, frango)","Óleo pra fritar"],
+    modo:"Recheie, feche bem as bordas com um garfo e frite em óleo quente até dourar dos dois lados."},
+  empadinha:{em:"🥧",nome:"Empadinha",rende:"~20 unidades",
+    ing:["Massa: farinha, manteiga, gema e sal","Recheio de frango ou palmito","1 gema pra pincelar"],
+    modo:"Forre forminhas com a massa, recheie, cubra com massa, pincele a gema e asse até dourar."},
+};
+
+/* ═══ KITS PRONTOS (templates) ═══ */
+const KITS=[
+  {id:"aniv",em:"🎂",nome:"Kit Aniversário Essencial",ocasiao:"O clássico que todo mundo pede",
+    itens:[["50","Brigadeiros","brigadeiro"],["50","Coxinhas","coxinha"]],preco:60,custo:24},
+  {id:"completo",em:"🎉",nome:"Kit Festa Completo",ocasiao:"Festa cheia — doce e salgado à vontade",
+    itens:[["50","Brigadeiros","brigadeiro"],["50","Beijinhos","beijinho"],["50","Coxinhas","coxinha"],["50","Kibes","kibe"]],preco:100,custo:45},
+  {id:"docinhos",em:"🍫",nome:"Kit Só Docinhos",ocasiao:"Mesa de doces variada",
+    itens:[["40","Brigadeiros","brigadeiro"],["30","Beijinhos","beijinho"],["30","Surpresas de uva","surpresa"]],preco:55,custo:22},
+  {id:"salgados",em:"🥟",nome:"Kit Só Salgados",ocasiao:"Salgadinho fresco pra festa",
+    itens:[["40","Coxinhas","coxinha"],["30","Kibes","kibe"],["30","Enroladinhos","enroladinho"]],preco:58,custo:26},
+  {id:"potes",em:"🍰",nome:"Kit Bolo no Pote",ocasiao:"O queridinho por encomenda",
+    itens:[["10","Bolos de pote","bolopote"]],preco:70,custo:28},
+  {id:"kids",em:"🧒",nome:"Kit Kids Colorido",ocasiao:"Festa infantil que criança ama",
+    itens:[["50","Docinhos coloridos","ninho"],["50","Coxinhas","coxinha"]],preco:60,custo:25},
+  {id:"cha",em:"🫖",nome:"Kit Chá da Tarde",ocasiao:"Chá de bebê, chá de panela",
+    itens:[["30","Brigadeiros","brigadeiro"],["20","Cajuzinhos","cajuzinho"],["30","Empadinhas","empadinha"]],preco:65,custo:28},
+  {id:"gourmet",em:"✨",nome:"Kit Gourmet Premium",ocasiao:"Pra cobrar mais — a margem gorda",
+    itens:[["50","Brigadeiros gourmet","brigadeiro"],["30","Docinhos de Ninho","ninho"],["40","Salgados especiais","pastel"]],preco:100,custo:48},
+  {id:"mini",em:"🎈",nome:"Kit Mini Comemoração",ocasiao:"O de entrada, a partir de R$50",
+    itens:[["30","Brigadeiros","brigadeiro"],["30","Coxinhas","coxinha"]],preco:50,custo:20},
+  {id:"reuniao",em:"💼",nome:"Kit Reunião / Trabalho",ocasiao:"Escritório, evento, coffee break",
+    itens:[["40","Enroladinhos","enroladinho"],["20","Empadinhas","empadinha"],["20","Pastéis","pastel"]],preco:80,custo:34},
+];
+
+/* ═══ ESTADO ═══ */
+const CHAVE="kitfesta_v2", CHAVE_FOTOS="kitfesta_fotos_v2";
+const inicial=()=>({tela:"capa",aceito:false,kitAberto:null,editando:null,ajustes:{},meusKits:[],meta:3000,tema:null});
+let estado=carregar(), fotos=carregarFotos();
+function carregar(){try{const s=JSON.parse(localStorage.getItem(CHAVE));return s&&"aceito"in s?{...inicial(),...s}:inicial();}catch{return inicial();}}
+function salvar(){try{localStorage.setItem(CHAVE,JSON.stringify(estado));}catch{}}
+function carregarFotos(){try{return JSON.parse(localStorage.getItem(CHAVE_FOTOS))||{};}catch{return {};}}
+function salvarFotos(){try{localStorage.setItem(CHAVE_FOTOS,JSON.stringify(fotos));return true;}catch(e){return false;}}
+
+const brl0=n=>"R$ "+(Math.round(+n||0)).toLocaleString("pt-BR");
+const parseNum=v=>{const n=parseFloat(String(v).replace(/[^\d,.-]/g,"").replace(/\./g,"").replace(",","."));return isNaN(n)?0:n;};
+
+/* todos os kits (templates + meus) */
+function todosKits(){return KITS.concat(estado.meusKits.map(m=>({...m,meu:true})));}
+function achaKit(id){return todosKits().find(k=>k.id===id);}
+function dadosKit(k){if(k.meu)return{preco:+k.preco||0,custo:+k.custo||0};const a=estado.ajustes[k.id]||{};return{preco:a.preco!=null?a.preco:k.preco,custo:a.custo!=null?a.custo:k.custo};}
+
+function ir(tela){
+  document.querySelectorAll("[data-tela]").forEach(s=>s.hidden=s.dataset.tela!==tela);
+  estado.tela=tela;salvar();
+  const app=["kits","kit","criar","receitas","meta"].includes(tela);
+  document.getElementById("nav").hidden=!app;document.getElementById("topo").hidden=!app;
+  document.querySelectorAll("#nav button").forEach(b=>b.setAttribute("aria-current",b.dataset.nav===tela||((tela==="kit"||tela==="criar")&&b.dataset.nav==="kits")));
+  if(tela==="kits")renderKits();
+  if(tela==="kit")renderKit();
+  if(tela==="criar")renderCriar();
+  if(tela==="receitas")renderReceitas();
+  if(tela==="meta")renderMeta();
+  window.scrollTo({top:0,behavior:"instant"});
+}
+function aceitar(){estado.aceito=true;salvar();ir("kits");}
+
+/* ═══ FOTOS ═══ */
+function comprimir(file,max,cb){
+  const img=new Image(),url=URL.createObjectURL(file);
+  img.onload=function(){let w=img.width,h=img.height;
+    if(w>h&&w>max){h=Math.round(h*max/w);w=max;}else if(h>=w&&h>max){w=Math.round(w*max/h);h=max;}
+    const cv=document.createElement("canvas");cv.width=w;cv.height=h;
+    cv.getContext("2d").drawImage(img,0,0,w,h);URL.revokeObjectURL(url);
+    try{cb(cv.toDataURL("image/jpeg",0.62));}catch(e){cb(null);}};
+  img.onerror=function(){URL.revokeObjectURL(url);cb(null);};
+  img.src=url;
+}
+function onFoto(id,input){
+  const f=input.files&&input.files[0];if(!f)return;
+  toast("Carregando foto…");
+  comprimir(f,760,function(data){
+    if(!data){toast("Não consegui ler essa imagem.");return;}
+    const antes=fotos[id];fotos[id]=data;
+    if(!salvarFotos()){fotos[id]=antes;salvarFotos();toast("Memória cheia. Apague uma foto antiga.");return;}
+    input.value="";toast("Foto salva! 📸");
+    if(estado.tela==="kit")renderKit();else if(estado.tela==="kits")renderKits();else if(estado.tela==="criar")renderCriar();
+  });
+}
+function removerFoto(id){delete fotos[id];salvarFotos();
+  if(estado.tela==="kit")renderKit();else if(estado.tela==="criar")renderCriar();else renderKits();toast("Foto removida");}
+
+/* ═══ LISTA ═══ */
+function renderKits(){
+  document.getElementById("listaKits").innerHTML=todosKits().map(k=>{
+    const d=dadosKit(k),lucro=d.preco-d.custo,foto=fotos[k.id];
+    return `<button class="kit" onclick="abrirKit('${k.id}')">
+      <div class="capa">${foto?`<img src="${foto}" alt="${k.nome}">`:`<span class="ph">${k.em||"🎁"}</span>`}
+        ${k.meu?'<span class="badge">meu kit</span>':''}
+        ${foto?'':'<span class="semfoto">📷 botar foto</span>'}</div>
+      <div class="info"><div class="nome">${k.nome}</div><div class="desc">${k.ocasiao||""}</div></div>
+      <div class="rodape"><span class="preco">${brl0(d.preco)}</span>
+        <span class="lucro">${lucro<0?"⚠ prejuízo":"lucro "+brl0(lucro)}</span></div></button>`;}).join("");
+}
+function abrirKit(id){estado.kitAberto=id;salvar();ir("kit");}
+
+/* ═══ DETALHE ═══ */
+function renderKit(){
+  const k=achaKit(estado.kitAberto)||todosKits()[0];
+  const d=dadosKit(k),lucro=d.preco-d.custo,margem=d.preco>0?Math.round(lucro/d.preco*100):0,pcCusto=d.preco>0?Math.min(100,Math.round(d.custo/d.preco*100)):0;
+  const foto=fotos[k.id];
+  const itensHtml = k.meu
+    ? `<p class="peq" style="white-space:pre-line;color:var(--tinta);margin:0">${(k.itens||"—")}</p>`
+    : k.itens.map(([q,n,r])=>`<div class="item-linha"><span class="q num">${q}×</span><span class="n">${n}</span>
+        <button class="ver" onclick="verReceita('${r}')">receita</button></div>`).join("");
+  document.getElementById("kitCorpo").innerHTML=`
+    <div class="fotoBig">
+      ${foto?`<img src="${foto}" alt="${k.nome}">`:`<span class="ph">${k.em||"🎁"}</span>`}
+      <div class="acoes">
+        <label>📷 ${foto?"Trocar":"Botar foto"}<input type="file" accept="image/*" onchange="onFoto('${k.id}',this)"></label>
+        ${foto?`<button onclick="removerFoto('${k.id}')">🗑</button>`:""}
+      </div>
+    </div>
+    <h1 class="disp" style="margin:2px 0 4px">${k.nome}</h1>
+    <p class="lead" style="margin-bottom:14px">${k.ocasiao||""}</p>
+
+    <div class="lucroBox">
+      <div class="cap">${lucro<0?"Você está no prejuízo":"Seu lucro por kit"}</div>
+      <div class="big">${brl0(lucro)}</div>
+      <div class="sub">vende por ${brl0(d.preco)} · custa ${brl0(d.custo)} · margem ${margem}%</div>
+      <div class="split"><span style="flex:${Math.max(6,pcCusto)};background:#ffffff33">custo ${pcCusto}%</span><span style="flex:${Math.max(6,100-pcCusto)};background:#ffffff5a">lucro ${100-pcCusto}%</span></div>
+    </div>
+
+    <div class="secao"><h2 class="h2">Ajuste com os SEUS números</h2></div>
+    <div class="card calc">
+      <div class="row"><span class="lb">Por quanto você vende${k.meu?"":`<small>sugerido: ${brl0(k.preco)}</small>`}</span>
+        <div class="moeda"><span>R$</span><input inputmode="numeric" value="${d.preco}" oninput="ajustar('${k.id}','preco',this.value)"></div></div>
+      <div class="row"><span class="lb">Quanto te custa${k.meu?"":`<small>estimativa: ${brl0(k.custo)}</small>`}</span>
+        <div class="moeda"><span>R$</span><input inputmode="numeric" value="${d.custo}" oninput="ajustar('${k.id}','custo',this.value)"></div></div>
+    </div>
+    ${lucro<0?`<div class="aviso a"><b>Cuidado: no vermelho</b>Por esse preço você paga pra trabalhar. Suba o preço ou reveja o custo.</div>`
+      :margem<30?`<div class="aviso a"><b>Margem apertada</b>Lucrando pouco (${margem}%). O ideal em confeitaria é vender por ~3× o custo. Considere cobrar mais.</div>`
+      :`<div class="aviso o"><b>Margem saudável 👏</b>${margem}% de margem. Cada kit vendido põe ${brl0(lucro)} no seu bolso.</div>`}
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      ${k.meu?`<button class="btn ghost mini" onclick="editarMeuKit('${k.id}')">✎ Editar kit</button>`:`<button class="btn ghost mini" onclick="resetKit('${k.id}')">↺ Valores sugeridos</button>`}
+      <button class="btn gold mini" onclick="compartilhar('${k.id}')">↗ Compartilhar</button>
+    </div>
+
+    <div class="secao"><h2 class="h2">O que vem no kit</h2></div>
+    <div class="card">${itensHtml}</div>`;
+}
+function ajustar(id,campo,v){
+  const k=achaKit(id);
+  if(k&&k.meu){const m=estado.meusKits.find(x=>x.id===id);if(m){m[campo]=parseNum(v);salvar();renderKit();}return;}
+  estado.ajustes[id]=estado.ajustes[id]||{};estado.ajustes[id][campo]=parseNum(v);salvar();renderKit();
+}
+function resetKit(id){delete estado.ajustes[id];salvar();renderKit();toast("Voltou aos valores sugeridos");}
+
+/* ═══ CRIAR / EDITAR ═══ */
+function novoKit(){estado.editando=null;salvar();ir("criar");}
+function editarMeuKit(id){estado.editando=id;salvar();ir("criar");}
+function renderCriar(){
+  const ed=estado.editando?estado.meusKits.find(x=>x.id===estado.editando):null;
+  document.getElementById("criarTitulo").innerHTML=ed?'Editar <em>meu kit</em>':'Criar <em>meu kit</em>';
+  const fid=ed?ed.id:"novo_preview";
+  const foto=ed?fotos[ed.id]:fotos["novo_preview"];
+  document.getElementById("criarFotoWrap").innerHTML=`
+    <div class="fotoBig">${foto?`<img src="${foto}" alt="foto do kit">`:`<span class="ph">📷</span>`}
+      <div class="acoes"><label>📷 ${foto?"Trocar":"Botar foto"}<input type="file" accept="image/*" onchange="onFoto('${fid}',this)"></label>
+        ${foto?`<button onclick="removerFoto('${fid}')">🗑</button>`:""}</div></div>`;
+  document.getElementById("fNome").value=ed?ed.nome:"";
+  document.getElementById("fOcasiao").value=ed?(ed.ocasiao||""):"";
+  document.getElementById("fItens").value=ed?(ed.itens||""):"";
+  document.getElementById("fPreco").value=ed?ed.preco:"";
+  document.getElementById("fCusto").value=ed?ed.custo:"";
+  document.getElementById("btnExcluir").hidden=!ed;
+}
+function salvarMeuKit(){
+  const nome=document.getElementById("fNome").value.trim();
+  if(!nome){toast("Dê um nome pro seu kit 🙂");return;}
+  const dados={nome,ocasiao:document.getElementById("fOcasiao").value.trim(),
+    itens:document.getElementById("fItens").value.trim(),
+    preco:parseNum(document.getElementById("fPreco").value),custo:parseNum(document.getElementById("fCusto").value)};
+  if(estado.editando){const m=estado.meusKits.find(x=>x.id===estado.editando);Object.assign(m,dados);}
+  else{const id="meu_"+Date.now();estado.meusKits.push({id,...dados});
+    if(fotos["novo_preview"]){fotos[id]=fotos["novo_preview"];delete fotos["novo_preview"];salvarFotos();}
+    estado.kitAberto=id;}
+  salvar();toast("Kit salvo! 🎉");
+  if(estado.editando){estado.kitAberto=estado.editando;}estado.editando=null;salvar();ir("kit");
+}
+function excluirMeuKit(){
+  if(!estado.editando)return;if(!confirm("Excluir este kit? Não dá pra desfazer."))return;
+  const id=estado.editando;estado.meusKits=estado.meusKits.filter(x=>x.id!==id);
+  if(fotos[id]){delete fotos[id];salvarFotos();}estado.editando=null;salvar();ir("kits");toast("Kit excluído");
+}
+
+/* ═══ RECEITAS ═══ */
+function cardReceita(r){const R=RECEITAS[r];if(!R)return"";
+  return `<details class="rec"><summary><span class="em">${R.em}</span>${R.nome}</summary>
+    <div class="in"><p class="mini" style="margin-bottom:6px">Rende ${R.rende}</p>
+      <h4>Ingredientes</h4><ul>${R.ing.map(i=>`<li>${i}</li>`).join("")}</ul>
+      <h4>Modo de preparo</h4><p>${R.modo}</p></div></details>`;}
+function renderReceitas(){document.getElementById("listaReceitas").innerHTML=Object.keys(RECEITAS).map(cardReceita).join("");}
+function verReceita(r){ir("receitas");setTimeout(()=>{const els=[...document.querySelectorAll("#listaReceitas details")];
+  const idx=Object.keys(RECEITAS).indexOf(r);if(els[idx]){els[idx].open=true;els[idx].scrollIntoView({behavior:"smooth",block:"center"});}},120);}
+
+/* ═══ META ═══ */
+function renderMeta(){
+  const meta=estado.meta||3000;document.getElementById("metaVal").value=meta;
+  const ks=todosKits(),lucros=ks.map(k=>{const d=dadosKit(k);return d.preco-d.custo;}).filter(l=>l>0);
+  const medio=lucros.length?lucros.reduce((a,b)=>a+b,0)/lucros.length:1;
+  const kitsMes=Math.ceil(meta/medio),kitsDia=(meta/medio/30);
+  const arr=ks.map(k=>({k,l:dadosKit(k).preco-dadosKit(k).custo})).filter(x=>x.l>0).sort((a,b)=>b.l-a.l);
+  const maior=arr[0];
+  document.getElementById("metaCorpo").innerHTML=`
+    <div class="lucroBox"><div class="cap">Pra ganhar ${brl0(meta)} no mês</div>
+      <div class="big">${isFinite(kitsMes)?kitsMes:"—"} kits</div>
+      <div class="sub">≈ ${kitsDia.toFixed(1)} kits por dia · lucro médio ${brl0(medio)}/kit</div></div>
+    ${maior?`<div class="aviso o"><b>Fica mais fácil com o kit certo</b>Seu kit de maior lucro é o <b>${maior.k.nome}</b>
+      (${brl0(maior.l)}/kit). Só com ele, você bate a meta com <b>${Math.ceil(meta/maior.l)} kits/mês</b>
+      (~${(meta/maior.l/30).toFixed(1)}/dia).</div>`:`<div class="aviso a"><b>Ajuste seus preços</b>Coloque preço e custo nos kits pra eu calcular sua meta.</div>`}
+    <p class="peq" style="margin-top:4px">Quanto melhor você precifica, menos kits precisa vender pra chegar lá.</p>`;
+}
+document.getElementById("metaVal")&&document.getElementById("metaVal").addEventListener("change",e=>{estado.meta=parseNum(e.target.value)||3000;salvar();});
+
+/* ═══ UTIL ═══ */
+async function compartilhar(id){
+  const k=achaKit(id),d=dadosKit(k),lucro=d.preco-d.custo;
+  const itensTxt=k.meu?(k.itens||""):k.itens.map(([q,n])=>`${q}× ${n}`).join("\n");
+  const txt=`${k.nome} 🎉\n${itensTxt}\n\nVendo por ${brl0(d.preco)} · lucro ${brl0(lucro)}\n\nMontado no ${CONFIG.produto} · ${CONFIG.autora}`;
+  try{if(navigator.share)return await navigator.share({text:txt});await navigator.clipboard.writeText(txt);toast("Copiado! Cola no seu catálogo 🍫");}catch{toast("Não consegui copiar.");}
+}
+function toast(m){const t=document.getElementById("toast");t.textContent=m;t.classList.add("on");clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove("on"),2600);}
+function trocarTema(){const a=estado.tema||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");estado.tema=a==="dark"?"light":"dark";document.documentElement.dataset.tema=estado.tema;salvar();}
+
+/* ═══ BOOT ═══ */
+(function(){
+  if(estado.tema)document.documentElement.dataset.tema=estado.tema;
+  document.title=CONFIG.produto+" · renda extra com kits a partir de R$50";
+  document.getElementById("cMarca").textContent=CONFIG.produto;
+  document.getElementById("topoMarca").textContent=CONFIG.produto;
+  document.getElementById("cTitulo").innerHTML=CONFIG.titulo;
+  document.getElementById("cSub").textContent=CONFIG.subtitulo;
+  const legal=`<b>Aviso.</b> O ${CONFIG.produto} é um material educativo de receitas e precificação. Os custos são
+    <b>estimativas</b> que variam por região — ajuste aos preços do seu mercado. Não vende alimentos nem garante
+    renda; o resultado depende da sua produção e divulgação. Vender comida caseira pode exigir MEI e boas práticas,
+    conforme seu município. Suas fotos e dados ficam só no seu aparelho.<br><br>${CONFIG.produto} · ${CONFIG.autora}`;
+  ["rodape1","rodape2","rodape3","rodape4","rodape5"].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML=legal;});
+  ir(estado.aceito?"kits":"capa");
+})();
+</script>
+</body>
+</html>
