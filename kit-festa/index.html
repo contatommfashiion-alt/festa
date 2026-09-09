@@ -132,6 +132,13 @@ details.rec .in{padding:0 18px 18px}
 details.rec .in h4{margin:8px 0 4px;font-size:.82rem;letter-spacing:.08em;text-transform:uppercase;color:var(--caramelo)}
 details.rec .in ul{margin:0 0 8px;padding-left:20px}details.rec .in li{margin-bottom:3px;font-size:.9rem}
 details.rec .in p{font-size:.9rem;margin:0}
+details.rec .in ol{margin:0 0 8px;padding-left:22px}
+details.rec .in ol li{margin-bottom:9px;font-size:.9rem;line-height:1.55}
+details.rec .in ol li b{display:block;margin-bottom:2px;color:var(--tinta)}
+details.rec .in ul.notas{margin:0;padding-left:20px}
+details.rec .in ul.notas li{margin-bottom:7px;font-size:.87rem;line-height:1.55;color:var(--tinta2)}
+details.rec>summary .emfoto{width:40px;height:40px;border-radius:50%;object-fit:cover;flex:none;display:block;border:1px solid var(--linha)}
+details.rec .in .recprep{display:block;width:100%;height:auto;margin:10px 0 4px;border-radius:14px}
 
 nav{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom));
   background:color-mix(in srgb,var(--papel) 92%,transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
@@ -204,8 +211,7 @@ nav button i{font-style:normal;font-size:1.05rem}nav button[aria-current="true"]
 <section data-tela="kits" class="pag anima" hidden style="padding-top:16px">
   <span class="rotulo">Meu catálogo</span>
   <h1 class="disp" style="margin:8px 0 6px">Seus kits <em>pra vender</em></h1>
-  <p class="lead">Toque num kit pra ver receitas, botar a foto e ajustar o lucro. Ou crie o seu do zero.</p>
-  <button class="btn gold" onclick="novoKit()">＋ Criar meu próprio kit</button>
+  <p class="lead">Toque num kit pra ver receitas, botar a foto e ajustar o lucro.</p>
   <div id="listaKits" style="margin-top:6px"></div>
   <div class="rodape" id="rodape2"></div>
 </section>
@@ -275,9 +281,18 @@ const CONFIG = {
 
 /* ═══ RECEITAS ═══ */
 const RECEITAS={
-  brigadeiro:{em:"🍫",nome:"Brigadeiro",rende:"~30 unidades",
-    ing:["1 lata de leite condensado","1 colher (sopa) de manteiga","4 colheres (sopa) de chocolate em pó ou achocolatado","Granulado pra enrolar"],
-    modo:"Leve tudo ao fogo baixo mexendo sem parar até desgrudar do fundo. Espere esfriar, enrole e passe no granulado."},
+  brigadeiro:{em:"🍫",nome:"Brigadeiro",rende:"~30 unidades",foto:"brigadeiro.webp",fotoPrep:"receitabriga.webp",
+    ing:["1 lata de leite condensado (395 g)","1 colher (sopa) de manteiga","4 colheres (sopa) de chocolate em pó 50% cacau, passado na peneira","1 pacote de chocolate granulado (150 g)","1 colher (sopa) de manteiga para untar o prato e as mãos"],
+    etapas:[
+      {t:"Misture tudo com o fogo desligado",d:"Antes de ligar o fogo, coloque na panela 1 lata de leite condensado (395 g), 1 colher (sopa) de manteiga e 4 colheres (sopa) de chocolate em pó 50% cacau, passado na peneira. Mexa até ficar tudo bem misturado, sem bolinhas. Misturar com a panela fria é o que evita que o chocolate empelote."},
+      {t:"Cozinhe em fogo baixo",d:"Ligue o fogo bem baixo. Mexa sem parar, sempre raspando o fundo da panela. Leva mais ou menos 12 minutos. Não aumente o fogo: queima e fica com gosto ruim."},
+      {t:"Veja se está no ponto",d:"Incline a panela. Se a massa escorregar toda junta e deixar o fundo limpo, está no ponto. Se escorrer mole e solta, cozinhe mais 1 ou 2 minutos e teste de novo."},
+      {t:"Espalhe no prato e deixe esfriar",d:"Passe 1 colher (sopa) de manteiga para untar o prato e as mãos num prato grande. Despeje o brigadeiro ali e espalhe um pouco. Deixe esfriar em cima da pia por 1 hora e meia. Não coloque na geladeira: ele fica duro e seco."},
+      {t:"Enrole e passe no granulado",d:"Passe manteiga nas mãos. Pegue o brigadeiro com uma colher de chá bem cheia e faça as bolinhas. Passe cada uma no 1 pacote de chocolate granulado (150 g) e coloque nas forminhas."}],
+    notas:[
+      "Para dar as 30 unidades, faça bolinhas pequenas, do tamanho de festa. Se você gosta de brigadeiro maior, essa mesma receita rende 25.",
+      "Se for usar achocolatado (Nescau, Toddy) no lugar do chocolate em pó, coloque 6 colheres de sopa. Se for usar cacau 100%, coloque só 2, senão fica amargo.",
+      "Se na hora de enrolar o brigadeiro estiver mole demais, faltou cozinhar. É só voltar tudo para a panela e cozinhar mais um pouco."]},
   beijinho:{em:"🥥",nome:"Beijinho",rende:"~30 unidades",
     ing:["1 lata de leite condensado","1 colher (sopa) de manteiga","3 colheres (sopa) de coco ralado","Açúcar e cravo pra decorar"],
     modo:"Cozinhe leite condensado, manteiga e coco até desgrudar. Esfrie, enrole, passe no açúcar e finalize com um cravo."},
@@ -293,9 +308,22 @@ const RECEITAS={
   bolopote:{em:"🍰",nome:"Bolo de pote",rende:"~8 potes",
     ing:["1 bolo simples (pronto ou de caixa)","1 lata de leite condensado + creme de leite","Fruta ou recheio a gosto"],
     modo:"Em cada pote, alterne camadas de bolo esfarelado e recheio. Finalize com recheio por cima e leve à geladeira."},
-  coxinha:{em:"🍗",nome:"Coxinha",rende:"~30 unidades",
-    ing:["2 xíc. de caldo de galinha","2 xíc. de farinha de trigo","Frango cozido e desfiado temperado","Farinha de rosca e ovo pra empanar","Óleo pra fritar"],
-    modo:"Ferva o caldo, acrescente a farinha de uma vez e mexa até formar massa. Modele com recheio, empane e frite até dourar."},
+  coxinha:{em:"🍗",nome:"Coxinha",rende:"~30 unidades",foto:"coxinha.webp",fotoPrep:"receitacoxinha.webp",
+    ing:["2 xícaras (chá) de caldo de galinha bem temperado (500 ml)","2 colheres (sopa) de manteiga","4 xícaras (chá) de farinha de trigo (500 g), e mais um pouco para sovar","400 gramas de frango cozido e desfiado, já temperado e frio","3 ovos batidos com um garfo, para empanar","2 xícaras (chá) de farinha de rosca","1 litro de óleo para fritar"],
+    etapas:[
+      {t:"Ferva o caldo com a manteiga",d:"Coloque numa panela 2 xícaras (chá) de caldo de galinha bem temperado (500 ml) e 2 colheres (sopa) de manteiga. Deixe ferver de verdade, com bolhões."},
+      {t:"Junte a farinha de uma vez",d:"Abaixe o fogo e jogue 4 xícaras (chá) de farinha de trigo (500 g), e mais um pouco para sovar de uma vez só. Mexa com força com uma colher de pau, sem parar, até virar uma bola que solta do fundo da panela. Leva uns 3 minutos."},
+      {t:"Sove a massa ainda morna",d:"Passe a massa para a bancada. Espere amornar o suficiente para conseguir pegar e sove bem por uns 5 minutos, até ficar lisa e não grudar mais na mão. Sovar quente demais queima; sovar frio racha."},
+      {t:"Deixe a massa descansar",d:"Cubra com um pano e deixe descansar por 20 minutos. Esse descanso deixa a massa mais fácil de modelar e evita que ela abra na fritura."},
+      {t:"Modele com o recheio",d:"Pegue porções do tamanho de um ovo pequeno. Abra na palma da mão, coloque uma colher de sobremesa de 400 gramas de frango cozido e desfiado, já temperado e frio no meio, feche bem e puxe a pontinha. Feche com capricho: buraco na massa faz a coxinha abrir."},
+      {t:"Empane",d:"Passe cada coxinha em 3 ovos batidos com um garfo, para empanar e depois em 2 xícaras (chá) de farinha de rosca, apertando de leve para grudar bem. Deixe em uma bandeja, sem encostar uma na outra."},
+      {t:"Esquente o óleo no ponto certo",d:"Esquente 1 litro de óleo para fritar em fogo médio. Para testar, jogue uma bolinha de massa: ela tem que subir e borbulhar em volta na hora. Se afundar, está frio; se escurecer na hora, está quente demais."},
+      {t:"Frite poucas de cada vez",d:"Frite poucas por vez, umas 4 ou 5, para o óleo não esfriar. Deixe uns 4 minutos, até ficarem douradas por igual. Tire e escorra em papel toalha."}],
+    notas:[
+      "O caldo tem que estar bem salgado, quase forte demais. É ele que tempera a massa toda. Se o caldo for sem graça, a coxinha fica sem gosto.",
+      "O recheio precisa estar frio e sequinho. Recheio quente ou molhado amolece a massa e faz a coxinha abrir na hora de fritar.",
+      "Se a massa estiver grudando muito na mão, sove com mais um pouco de farinha. Se estiver rachando, sove com as mãos untadas com um fio de óleo.",
+      "Dá pra deixar tudo pronto e congelar depois de empanar. Frite direto do congelador, sem descongelar."]},
   kibe:{em:"🥙",nome:"Kibe",rende:"~25 unidades",
     ing:["2 xíc. de trigo para kibe (hidratado)","400g de carne moída","Cebola, hortelã, sal e temperos","Óleo pra fritar"],
     modo:"Misture o trigo escorrido com a carne e os temperos até virar massa. Modele, frite ou asse até dourar."},
@@ -312,7 +340,7 @@ const RECEITAS={
 
 /* ═══ KITS PRONTOS (templates) ═══ */
 const KITS=[
-  {id:"aniv",em:"🎂",nome:"Kit Aniversário Essencial",ocasiao:"O clássico que todo mundo pede",
+  {id:"aniv",em:"🎂",foto:"kitessencial.webp",nome:"Kit Aniversário Essencial",ocasiao:"O clássico que todo mundo pede",
     itens:[["50","Brigadeiros","brigadeiro"],["50","Coxinhas","coxinha"]],preco:60,custo:24},
   {id:"completo",em:"🎉",nome:"Kit Festa Completo",ocasiao:"Festa cheia — doce e salgado à vontade",
     itens:[["50","Brigadeiros","brigadeiro"],["50","Beijinhos","beijinho"],["50","Coxinhas","coxinha"],["50","Kibes","kibe"]],preco:100,custo:45},
@@ -394,11 +422,11 @@ function removerFoto(id){delete fotos[id];salvarFotos();
 /* ═══ LISTA ═══ */
 function renderKits(){
   document.getElementById("listaKits").innerHTML=todosKits().map(k=>{
-    const d=dadosKit(k),lucro=d.preco-d.custo,foto=fotos[k.id];
+    const d=dadosKit(k),lucro=d.preco-d.custo,fotoUser=fotos[k.id],foto=fotoUser||k.foto;
     return `<button class="kit" onclick="abrirKit('${k.id}')">
       <div class="capa">${foto?`<img src="${foto}" alt="${k.nome}">`:`<span class="ph">${k.em||"🎁"}</span>`}
         ${k.meu?'<span class="badge">meu kit</span>':''}
-        ${foto?'':'<span class="semfoto">📷 botar foto</span>'}</div>
+        ${fotoUser||k.foto?'':'<span class="semfoto">📷 botar foto</span>'}</div>
       <div class="info"><div class="nome">${k.nome}</div><div class="desc">${k.ocasiao||""}</div></div>
       <div class="rodape"><span class="preco">${brl0(d.preco)}</span>
         <span class="lucro">${lucro<0?"⚠ prejuízo":"lucro "+brl0(lucro)}</span></div></button>`;}).join("");
@@ -409,7 +437,7 @@ function abrirKit(id){estado.kitAberto=id;salvar();ir("kit");}
 function renderKit(){
   const k=achaKit(estado.kitAberto)||todosKits()[0];
   const d=dadosKit(k),lucro=d.preco-d.custo,margem=d.preco>0?Math.round(lucro/d.preco*100):0,pcCusto=d.preco>0?Math.min(100,Math.round(d.custo/d.preco*100)):0;
-  const foto=fotos[k.id];
+  const fotoUser=fotos[k.id],foto=fotoUser||k.foto;
   const itensHtml = k.meu
     ? `<p class="peq" style="white-space:pre-line;color:var(--tinta);margin:0">${(k.itens||"—")}</p>`
     : k.itens.map(([q,n,r])=>`<div class="item-linha"><span class="q num">${q}×</span><span class="n">${n}</span>
@@ -417,10 +445,10 @@ function renderKit(){
   document.getElementById("kitCorpo").innerHTML=`
     <div class="fotoBig">
       ${foto?`<img src="${foto}" alt="${k.nome}">`:`<span class="ph">${k.em||"🎁"}</span>`}
-      <div class="acoes">
-        <label>📷 ${foto?"Trocar":"Botar foto"}<input type="file" accept="image/*" onchange="onFoto('${k.id}',this)"></label>
-        ${foto?`<button onclick="removerFoto('${k.id}')">🗑</button>`:""}
-      </div>
+      ${k.foto&&!fotoUser?"":`<div class="acoes">
+        <label>📷 ${fotoUser?"Trocar":"Botar foto"}<input type="file" accept="image/*" onchange="onFoto('${k.id}',this)"></label>
+        ${fotoUser?`<button onclick="removerFoto('${k.id}')">🗑</button>`:""}
+      </div>`}
     </div>
     <h1 class="disp" style="margin:2px 0 4px">${k.nome}</h1>
     <p class="lead" style="margin-bottom:14px">${k.ocasiao||""}</p>
@@ -497,10 +525,14 @@ function excluirMeuKit(){
 
 /* ═══ RECEITAS ═══ */
 function cardReceita(r){const R=RECEITAS[r];if(!R)return"";
-  return `<details class="rec"><summary><span class="em">${R.em}</span>${R.nome}</summary>
+  const preparo=R.etapas?`<ol>${R.etapas.map(e=>`<li><b>${e.t}</b>${e.d}</li>`).join("")}</ol>`:`<p>${R.modo}</p>`;
+  const notas=R.notas?`<h4>Notas</h4><ul class="notas">${R.notas.map(n=>`<li>${n}</li>`).join("")}</ul>`:"";
+  const icone=R.foto?`<img class="emfoto" src="${R.foto}" alt="" loading="lazy">`:`<span class="em">${R.em}</span>`;
+  return `<details class="rec"><summary>${icone}${R.nome}</summary>
     <div class="in"><p class="mini" style="margin-bottom:6px">Rende ${R.rende}</p>
       <h4>Ingredientes</h4><ul>${R.ing.map(i=>`<li>${i}</li>`).join("")}</ul>
-      <h4>Modo de preparo</h4><p>${R.modo}</p></div></details>`;}
+      ${R.fotoPrep?`<img class="recprep" src="${R.fotoPrep}" alt="Ingredientes do ${R.nome}" loading="lazy">`:""}
+      <h4>Modo de preparo</h4>${preparo}${notas}</div></details>`;}
 function renderReceitas(){document.getElementById("listaReceitas").innerHTML=Object.keys(RECEITAS).map(cardReceita).join("");}
 function verReceita(r){ir("receitas");setTimeout(()=>{const els=[...document.querySelectorAll("#listaReceitas details")];
   const idx=Object.keys(RECEITAS).indexOf(r);if(els[idx]){els[idx].open=true;els[idx].scrollIntoView({behavior:"smooth",block:"center"});}},120);}

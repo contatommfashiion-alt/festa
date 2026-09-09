@@ -1,0 +1,12 @@
+{
+  "name": "kit-festa-projeto",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Kit Festa — app de kits de festa. HTML estatico, sem build para publicar.",
+  "scripts": {
+    "dev": "vite kit-festa --open"
+  },
+  "devDependencies": {
+    "vite": "^7.1.5"
+  }
+}
