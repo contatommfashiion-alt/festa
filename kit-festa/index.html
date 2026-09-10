@@ -100,11 +100,11 @@ button{font:inherit;cursor:pointer;color:inherit}
 .kit .nome{font-family:var(--serif);font-weight:700;font-size:1.2rem;margin:0 0 2px}
 .kit .desc{font-size:.85rem;color:var(--tinta2);line-height:1.4}
 .kit .rodape{display:block;padding:0 18px 16px}
-.kit .rodape>.topo{border-top:1px solid var(--linha2);padding-top:13px}
+.kit .rodape>.resumo{border-top:1px solid var(--linha2);padding-top:13px}
 .kit .cols{display:flex;align-items:flex-end;justify-content:space-between;gap:10px}
 .kit .col{display:flex;flex-direction:column;gap:1px;min-width:0}
 .kit .col.dir{text-align:right}
-.kit .cap{font-size:.63rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--tinta2)}
+.kit .cap{font-size:.63rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--tinta2);white-space:nowrap}
 .kit .val{font-family:var(--serif);font-weight:700;font-size:1.2rem;line-height:1.15;font-variant-numeric:tabular-nums}
 .kit .val.ok{color:var(--ok)} .kit .val.ap{color:var(--alerta)} .kit .val.neg{color:var(--cereja)}
 .kit .barra{display:flex;height:8px;border-radius:99px;overflow:hidden;margin:11px 0 6px;background:var(--linha)}
@@ -168,15 +168,17 @@ details.rec .in ul.notas li{margin-bottom:7px;font-size:.87rem;line-height:1.55;
 details.rec>summary .emfoto{width:40px;height:40px;border-radius:50%;object-fit:cover;flex:none;display:block;border:1px solid var(--linha)}
 details.rec .in .recprep{display:block;width:100%;height:auto;margin:10px 0 4px;border-radius:14px}
 
-nav{position:fixed;left:50%;bottom:calc(14px + env(safe-area-inset-bottom));
-  transform:translateX(-50%) translateZ(0);will-change:transform;backface-visibility:hidden;
-  background:var(--papel);
-  border:1px solid var(--linha);border-radius:99px;display:flex;padding:6px;gap:2px;z-index:30;box-shadow:0 10px 30px #c43a5a1f;max-width:calc(100vw - 24px)}
+nav{position:fixed;left:0;right:0;bottom:0;
+  transform:translateZ(0);will-change:transform;backface-visibility:hidden;
+  background:var(--papel);border-top:1px solid var(--linha);
+  display:flex;justify-content:center;gap:2px;z-index:30;
+  padding:6px 8px calc(6px + env(safe-area-inset-bottom));
+  box-shadow:0 -6px 22px #c43a5a14}
 nav button{background:none;border:0;color:var(--tinta2);font-size:.64rem;font-weight:600;display:flex;flex-direction:column;
   align-items:center;gap:3px;padding:8px 13px;border-radius:99px;min-height:52px;min-width:70px;transition:all .2s}
 nav button i{font-style:normal;display:flex;align-items:center;justify-content:center;height:21px}
 nav button svg{width:21px;height:21px;display:block;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
-nav button[aria-current="true"]{background:var(--cereja-bg);color:var(--cereja)}
+nav button[aria-current="true"]{background:none;color:var(--cereja)}
 nav button[aria-current="true"] svg{stroke-width:1.9}
 
 .topo{position:sticky;top:0;z-index:15;background:color-mix(in srgb,var(--creme) 88%,transparent);
@@ -569,7 +571,7 @@ function renderKits(){
         ${k.meu?'<span class="badge">meu kit</span>':''}
         ${fotoUser||k.foto?'':'<span class="semfoto">📷 botar foto</span>'}</div>
       <div class="info"><div class="nome">${k.nome}</div><div class="desc">${k.ocasiao||""}</div></div>
-      <div class="rodape"><div class="topo">
+      <div class="rodape"><div class="resumo">
         <div class="cols">
           <div class="col"><span class="cap">Vende por</span><span class="val">${brl0(d.preco)}</span></div>
           <div class="col dir"><span class="cap">${lucro<0?"No vermelho":"Você lucra"}</span><span class="val ${nivel}">${lucro<0?"−"+brl0(Math.abs(lucro)):brl0(lucro)}</span></div>
