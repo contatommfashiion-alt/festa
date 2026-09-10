@@ -3,7 +3,21 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Kit Festa · renda extra com kits a partir de R$50</title>
+<title>Kit Festa · renda extra com kits a partir de R$55</title>
+
+<!-- icone da aba do navegador -->
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icone-192.png">
+
+<!-- icone quando a usuaria adiciona na tela inicial do celular -->
+<link rel="apple-touch-icon" href="favicon-180.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Kit Festa">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#FBF3EC" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#181110" media="(prefers-color-scheme: dark)">
 <style>
 :root{
   --creme:#FBF3EC; --papel:#FFFFFF; --cereja:#C43A5A; --cereja2:#D9556F; --cereja-bg:#FBE6EC;
@@ -36,7 +50,10 @@
   --sombra:0 2px 6px #0000000c,0 16px 36px #c43a5a14;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;padding:0;overflow-x:hidden}
+/* overflow-x:hidden cria contexto de rolagem e quebra position:fixed/sticky.
+   clip corta o transbordo horizontal sem criar esse contexto. hidden fica de reserva
+   pra navegadores antigos que nao conhecem clip. */
+html,body{margin:0;padding:0;overflow-x:hidden;overflow-x:clip}
 body{background:var(--creme);color:var(--tinta);font-family:var(--sans);font-size:16px;line-height:1.55;
   -webkit-font-smoothing:antialiased;padding:0 0 calc(96px + env(safe-area-inset-bottom))}
 .pag{max-width:600px;margin:0 auto;padding:0 20px}
@@ -82,9 +99,20 @@ button{font:inherit;cursor:pointer;color:inherit}
 .kit .info{padding:14px 18px}
 .kit .nome{font-family:var(--serif);font-weight:700;font-size:1.2rem;margin:0 0 2px}
 .kit .desc{font-size:.85rem;color:var(--tinta2);line-height:1.4}
-.kit .rodape{display:flex;align-items:center;justify-content:space-between;padding:0 18px 14px}
-.kit .preco{font-family:var(--serif);font-weight:700;font-size:1.15rem}
-.kit .lucro{background:var(--ok-bg);color:var(--ok);font-size:.82rem;font-weight:700;padding:6px 12px;border-radius:99px}
+.kit .rodape{display:block;padding:0 18px 16px}
+.kit .rodape>.topo{border-top:1px solid var(--linha2);padding-top:13px}
+.kit .cols{display:flex;align-items:flex-end;justify-content:space-between;gap:10px}
+.kit .col{display:flex;flex-direction:column;gap:1px;min-width:0}
+.kit .col.dir{text-align:right}
+.kit .cap{font-size:.63rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--tinta2)}
+.kit .val{font-family:var(--serif);font-weight:700;font-size:1.2rem;line-height:1.15;font-variant-numeric:tabular-nums}
+.kit .val.ok{color:var(--ok)} .kit .val.ap{color:var(--alerta)} .kit .val.neg{color:var(--cereja)}
+.kit .barra{display:flex;height:8px;border-radius:99px;overflow:hidden;margin:11px 0 6px;background:var(--linha)}
+.kit .barra i{display:block;height:100%;min-width:3px}
+.kit .barra .c{background:var(--tinta2);opacity:.3}
+.kit .barra .l.ok{background:var(--ok)} .kit .barra .l.ap{background:var(--alerta)} .kit .barra .l.neg{background:var(--cereja)}
+.kit .leg{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:.7rem;font-weight:600;color:var(--tinta2)}
+.kit .leg .forte{color:var(--cereja)}
 
 /* foto grande no detalhe */
 .fotoBig{position:relative;width:100%;aspect-ratio:16/10;border-radius:var(--rg);overflow:hidden;margin-bottom:14px;
@@ -140,12 +168,16 @@ details.rec .in ul.notas li{margin-bottom:7px;font-size:.87rem;line-height:1.55;
 details.rec>summary .emfoto{width:40px;height:40px;border-radius:50%;object-fit:cover;flex:none;display:block;border:1px solid var(--linha)}
 details.rec .in .recprep{display:block;width:100%;height:auto;margin:10px 0 4px;border-radius:14px}
 
-nav{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom));
-  background:color-mix(in srgb,var(--papel) 92%,transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+nav{position:fixed;left:50%;bottom:calc(14px + env(safe-area-inset-bottom));
+  transform:translateX(-50%) translateZ(0);will-change:transform;backface-visibility:hidden;
+  background:var(--papel);
   border:1px solid var(--linha);border-radius:99px;display:flex;padding:6px;gap:2px;z-index:30;box-shadow:0 10px 30px #c43a5a1f;max-width:calc(100vw - 24px)}
 nav button{background:none;border:0;color:var(--tinta2);font-size:.64rem;font-weight:600;display:flex;flex-direction:column;
   align-items:center;gap:3px;padding:8px 13px;border-radius:99px;min-height:52px;min-width:70px;transition:all .2s}
-nav button i{font-style:normal;font-size:1.05rem}nav button[aria-current="true"]{background:var(--cereja-bg);color:var(--cereja)}
+nav button i{font-style:normal;display:flex;align-items:center;justify-content:center;height:21px}
+nav button svg{width:21px;height:21px;display:block;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+nav button[aria-current="true"]{background:var(--cereja-bg);color:var(--cereja)}
+nav button[aria-current="true"] svg{stroke-width:1.9}
 
 .topo{position:sticky;top:0;z-index:15;background:color-mix(in srgb,var(--creme) 88%,transparent);
   backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--linha2);
@@ -177,12 +209,6 @@ nav button i{font-style:normal;font-size:1.05rem}nav button[aria-current="true"]
   <span class="rotulo" id="cMarca"></span>
   <h1 class="disp" id="cTitulo" style="margin:12px 0 14px"></h1>
   <p class="lead" id="cSub"></p>
-  <div class="card" style="text-align:center">
-    <div style="font-size:2.2rem">🎂 🧁 🍫 🥟</div>
-    <p class="peq" style="margin:10px 0 0">Monte seus kits, <b style="color:var(--tinta)">bote a foto</b>,
-      veja <b style="color:var(--tinta)">as receitas</b>, o <b style="color:var(--tinta)">preço certo</b> e
-      <b style="color:var(--tinta)">quanto você lucra</b> — a partir de R$50 o kit.</p>
-  </div>
   <button class="btn" onclick="ir('termo')">Começar minha renda extra</button>
   <div class="rodape" id="rodape1"></div>
 </section>
@@ -257,15 +283,15 @@ nav button i{font-style:normal;font-size:1.05rem}nav button[aria-current="true"]
   <span class="rotulo">Sua meta</span>
   <h1 class="disp" style="margin:8px 0 12px">Quantos kits pra <em>bater sua meta?</em></h1>
   <div class="card"><div class="calc"><div class="row"><span class="lb">Quanto você quer ganhar no mês?</span>
-    <div class="moeda"><span>R$</span><input id="metaVal" inputmode="numeric" value="3000" oninput="renderMeta()"></div></div></div></div>
+    <div class="moeda"><span>R$</span><input id="metaVal" inputmode="numeric" value="3000" oninput="setMeta(this.value)"></div></div></div></div>
   <div id="metaCorpo"></div>
   <div class="rodape" id="rodape5"></div>
 </section>
 
 <nav id="nav" hidden>
-  <button onclick="ir('kits')" data-nav="kits"><i>🎁</i>Kits</button>
-  <button onclick="ir('receitas')" data-nav="receitas"><i>📖</i>Receitas</button>
-  <button onclick="ir('meta')" data-nav="meta"><i>🎯</i>Meta</button>
+  <button onclick="ir('kits')" data-nav="kits"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8.2 12 3.6l9 4.6v7.6L12 20.4l-9-4.6V8.2Z"/><path d="m3 8.2 9 4.6 9-4.6M12 12.8v7.6"/></svg></i>Kits</button>
+  <button onclick="ir('receitas')" data-nav="receitas"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 5.5A2 2 0 0 1 6.5 3.5H20v13.2H6.5a2 2 0 0 0-2 2V5.5Z"/><path d="M8.4 7.9h7.2M8.4 11.4h7.2"/></svg></i>Receitas</button>
+  <button onclick="ir('meta')" data-nav="meta"><i><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.2"/><circle cx="12" cy="12" r="3.4"/></svg></i>Meta</button>
 </nav>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -274,7 +300,7 @@ nav button i{font-style:normal;font-size:1.05rem}nav button[aria-current="true"]
 /* ═══ PERSONALIZE AQUI ═══ */
 const CONFIG = {
   produto:"Kit Festa",
-  titulo:"Renda extra com <em>kit festa</em> — a partir de R$50.",
+  titulo:"Renda extra com <em>kit festa</em> — a partir de R$55.",
   subtitulo:"Qualquer mulher, dentro de casa. Monte seus kits de doce e salgado, bote a foto, e saiba exatamente por quanto vender pra LUCRAR — não só girar o caixa.",
   autora:"@seu_arroba",
 };
@@ -307,18 +333,68 @@ const RECEITAS={
       "Passe no açúcar cristal, não no refinado. O refinado derrete com o tempo e o doce fica melado na mesa da festa.",
       "Se preferir, dá para passar no coco ralado em vez do açúcar. Fica bonito do mesmo jeito.",
       "Sobre o cravo: ele é só enfeite e ninguém deve morder. Em festa de criança, o mais seguro é deixar de fora e enfeitar só com o açúcar."]},
-  surpresa:{em:"🍇",nome:"Surpresa de uva",rende:"~25 unidades",
-    ing:["1 receita de massa de beijinho","25 uvas lavadas e secas","Açúcar cristal pra passar"],
-    modo:"Envolva cada uva com um pouco da massa de beijinho, faça uma bolinha e passe no açúcar. Sirva geladinho."},
-  cajuzinho:{em:"🥜",nome:"Cajuzinho",rende:"~30 unidades",
-    ing:["1 lata de leite condensado","1 colher (sopa) de manteiga","100g de amendoim torrado e moído","Açúcar pra passar"],
-    modo:"Cozinhe tudo até desgrudar. Esfrie, modele em formato de cajuzinho e passe no açúcar."},
-  ninho:{em:"🍼",nome:"Docinho de leite Ninho",rende:"~30 unidades",
-    ing:["1 lata de leite condensado","1 colher (sopa) de manteiga","4 colheres (sopa) de leite em pó (Ninho)","Leite em pó extra pra passar"],
-    modo:"Cozinhe até desgrudar. Esfrie, enrole e passe no leite em pó."},
-  bolopote:{em:"🍰",nome:"Bolo de pote",rende:"~8 potes",
-    ing:["1 bolo simples (pronto ou de caixa)","1 lata de leite condensado + creme de leite","Fruta ou recheio a gosto"],
-    modo:"Em cada pote, alterne camadas de bolo esfarelado e recheio. Finalize com recheio por cima e leve à geladeira."},
+  surpresa:{em:"🍇",nome:"Surpresa de uva",rende:"~25 unidades",foto:"uva.webp",fotoPrep:"receitauva.webp",
+    ing:["1 lata de leite condensado (395 g)","1 colher (sopa) de manteiga","100 gramas de coco ralado seco, sem açúcar (mais ou menos 1 xícara de chá)","25 uvas sem semente, firmes e sem rachadura","1 xícara (chá) de açúcar cristal, para passar por fora","1 colher (sopa) de manteiga para untar o prato e as mãos"],
+    etapas:[
+      {t:"Misture tudo com o fogo desligado",d:"Com a panela ainda fria e fora do fogo, coloque 1 lata de leite condensado (395 g), 1 colher (sopa) de manteiga e 100 gramas de coco ralado seco, sem açúcar (mais ou menos 1 xícara de chá). Mexa até misturar tudo bem."},
+      {t:"Cozinhe em fogo baixo, só até começar a soltar",d:"Ligue o fogo bem baixo e mexa sem parar, raspando o fundo. Leva uns 10 minutos. Aqui é só até a massa começar a soltar do fundo: ela tem que ficar um pouco mais mole que a do beijinho, senão racha quando você contornar a uva."},
+      {t:"Espalhe no prato e deixe esfriar",d:"Passe 1 colher (sopa) de manteiga para untar o prato e as mãos num prato grande, despeje a massa e espalhe. Deixe esfriar em cima da pia por 1 hora e meia. Não pode ir para a geladeira: endurece e fica impossível de moldar em volta da uva."},
+      {t:"Lave e seque bem as uvas",d:"Enquanto a massa esfria, lave 25 uvas sem semente, firmes e sem rachadura e seque uma por uma com papel toalha. Elas têm que ficar completamente secas, sem nenhuma gotinha."},
+      {t:"Envolva cada uva na massa",d:"Passe manteiga nas mãos. Pegue uma colher de chá cheia de massa e achate na palma da mão, como um disquinho. Coloque a uva no meio, feche a massa em volta e role até virar uma bolinha lisa, sem parte aberta."},
+      {t:"Passe no açúcar e leve à geladeira",d:"Passe cada bolinha em 1 xícara (chá) de açúcar cristal, para passar por fora e coloque numa forminha. Guarde na geladeira em pote fechado e sirva geladinho."}],
+    notas:[
+      "A uva precisa ser sem semente. Semente em doce de festa pega muito mal, porque ninguém espera.",
+      "Secar a uva uma por uma parece exagero, mas é o que segura a massa no lugar. Uva molhada faz a massa escorregar e o doce abre.",
+      "Monte no mesmo dia da festa, no máximo umas 6 horas antes. Com o tempo a uva solta água por dentro e o açúcar de fora derrete.",
+      "Essa quantidade de massa dá para até 30 uvas, se você quiser deixar igual à quantidade dos outros doces da mesa.",
+      "Como a uva vai inteira dentro do doce, não é indicado para crianças pequenas, de até uns 4 anos."]},
+  cajuzinho:{em:"🥜",nome:"Cajuzinho",rende:"~30 unidades",foto:"cajuzin.webp",fotoPrep:"receitacajuzin.webp",
+    ing:["1 lata de leite condensado (395 g)","1 colher (sopa) de manteiga","200 gramas de amendoim torrado e sem pele","1 colher (sopa) de chocolate em pó","1 xícara (chá) de açúcar cristal, para passar por fora","30 amendoins inteiros para enfeitar (opcional)","1 colher (sopa) de manteiga para untar o prato e as mãos"],
+    etapas:[
+      {t:"Moa o amendoim em toques curtos",d:"Bata 200 gramas de amendoim torrado e sem pele no liquidificador ou processador dando toques curtos, até virar uma farofa grossa. Não bata direto: se passar do ponto, o amendoim solta óleo, vira pasta e a massa não firma."},
+      {t:"Misture tudo com o fogo desligado",d:"Com a panela ainda fria e fora do fogo, coloque 1 lata de leite condensado (395 g), 1 colher (sopa) de manteiga, 1 colher (sopa) de chocolate em pó e o amendoim moído. Mexa até misturar tudo bem."},
+      {t:"Cozinhe em fogo baixo, mexendo sempre",d:"Ligue o fogo bem baixo e mexa sem parar, raspando o fundo o tempo todo. Leva uns 10 minutos. Essa massa queima mais fácil que a do brigadeiro por causa do óleo do amendoim, então não pode dar uma paradinha."},
+      {t:"Veja se está no ponto",d:"Incline a panela. Se a massa escorregar toda junta e deixar o fundo limpo, está no ponto. Se escorrer mole e solta, cozinhe mais 1 ou 2 minutos."},
+      {t:"Espalhe no prato e deixe esfriar",d:"Passe 1 colher (sopa) de manteiga para untar o prato e as mãos num prato grande. Despeje a massa ali e espalhe um pouco. Deixe esfriar em cima da pia por 1 hora e meia. Não coloque na geladeira."},
+      {t:"Modele no formato de caju",d:"Passe manteiga nas mãos. Faça uma bolinha, depois afine uma das pontas rolando entre os dedos e curve de leve. Fica com formato de gota tortinha, que é o jeito do caju."},
+      {t:"Passe no açúcar e enfeite",d:"Passe cada um em 1 xícara (chá) de açúcar cristal, para passar por fora e coloque nas forminhas. Se quiser, espete um de 30 amendoins inteiros para enfeitar (opcional) na ponta mais fina."}],
+    notas:[
+      "Use amendoim sem pele. A pele deixa gosto amargo e pontinhos escuros no doce.",
+      "Passe no açúcar cristal, não no refinado. O refinado derrete e o doce fica melado na mesa.",
+      "Em festa, avise que tem amendoim ou deixe uma plaquinha na mesa. Alergia a amendoim é comum e pode ser grave.",
+      "Duram 4 dias em pote fechado, fora da geladeira.",
+      "Se na hora de modelar estiver mole demais, volte tudo para a panela e cozinhe mais um pouco."]},
+  ninho:{em:"🍼",nome:"Docinho de leite Ninho",rende:"~30 unidades",foto:"ninho.webp",fotoPrep:"receitaninho.webp",
+    ing:["1 lata de leite condensado (395 g)","1 colher (sopa) de manteiga","1 xícara (chá) de leite em pó integral, passado na peneira (100 g)","6 colheres (sopa) de leite em pó integral para passar por fora","1 colher (sopa) de manteiga para untar o prato e as mãos"],
+    etapas:[
+      {t:"Misture o leite condensado com a manteiga",d:"Numa panela fria, misture 1 lata de leite condensado (395 g) e 1 colher (sopa) de manteiga. Ainda não coloque o leite em pó."},
+      {t:"Cozinhe em fogo baixo, só até começar a soltar",d:"Ligue o fogo bem baixo e mexa sem parar, raspando o fundo. Leva uns 9 minutos, só até a massa começar a soltar do fundo. Deixe mais mole que brigadeiro: o leite em pó ainda vai firmar tudo depois."},
+      {t:"Junte o leite em pó fora do fogo",d:"Desligue o fogo e espere 2 minutos. Junte 1 xícara (chá) de leite em pó integral, passado na peneira (100 g) e mexa bem até ficar uma massa lisa, sem bolinhas. Fora do fogo o leite em pó não empelota e o sabor fica bem mais forte."},
+      {t:"Espalhe no prato e deixe esfriar",d:"Passe 1 colher (sopa) de manteiga para untar o prato e as mãos num prato grande. Despeje a massa ali e espalhe um pouco. Deixe esfriar em cima da pia por 1 hora e meia. Não coloque na geladeira: fica duro e seco."},
+      {t:"Enrole as bolinhas",d:"Passe manteiga nas mãos. Pegue com uma colher de chá bem cheia e faça as bolinhas."},
+      {t:"Passe no leite em pó",d:"Passe cada bolinha em 6 colheres (sopa) de leite em pó integral para passar por fora e coloque nas forminhas. Se for guardar para o dia seguinte, deixe esse passo para a véspera da festa."}],
+    notas:[
+      "Use leite em pó integral. O desnatado deixa o docinho sem sabor e com textura arenosa.",
+      "Peneirar não é frescura. Leite em pó direto do pacote forma bolinhas que não desmancham mais.",
+      "Passe no leite em pó só perto da hora de servir. Ele puxa umidade do doce e, se você fizer na véspera, a parte de fora fica com aspecto molhado.",
+      "Duram 3 dias em pote fechado, fora da geladeira. Na geladeira ficam duros.",
+      "Se na hora de enrolar estiver mole demais, volte tudo para a panela e cozinhe mais um pouco."]},
+  bolopote:{em:"🍰",nome:"Bolo de pote",rende:"~8 potes",foto:"bolopote.webp",fotoPrep:"receitepote.webp",
+    ing:["1 bolo simples pronto e frio, de caixa ou caseiro (mais ou menos 700 g)","1 lata de leite condensado para o creme (395 g)","1 colher (sopa) de manteiga","1 caixinha de creme de leite (200 g)","1 xícara (chá) de leite para a calda","4 colheres (sopa) de leite condensado para a calda","300 gramas de morango lavado, seco e cortado em fatias","8 potes com tampa, de 200 ml, bem limpos e secos"],
+    etapas:[
+      {t:"Cozinhe o creme",d:"Numa panela fria, misture 1 lata de leite condensado para o creme (395 g) e 1 colher (sopa) de manteiga. Ligue o fogo baixo e mexa sem parar por uns 8 minutos, até engrossar e ficar tipo um mingau grosso. É bem antes do ponto de enrolar brigadeiro: tem que cair da colher."},
+      {t:"Junte o creme de leite fora do fogo",d:"Desligue o fogo e espere amornar. Só então misture 1 caixinha de creme de leite (200 g). Deixe esfriar completamente antes de montar, se quiser leve à geladeira para adiantar."},
+      {t:"Faça a calda",d:"Numa canequinha, misture 1 xícara (chá) de leite para a calda com 4 colheres (sopa) de leite condensado para a calda. É essa calda que deixa o bolo de pote úmido em vez de seco."},
+      {t:"Corte o bolo em cubinhos",d:"Corte 1 bolo simples pronto e frio, de caixa ou caseiro (mais ou menos 700 g) em cubinhos de mais ou menos dois dedos. Cubinho fica mais bonito no pote de vidro do que bolo esfarelado."},
+      {t:"Monte os potes",d:"Em cada um dos 8 potes com tampa, de 200 ml, bem limpos e secos, coloque uma camada de bolo, regue com 1 colher (sopa) da calda, ponha uma camada de creme e algumas fatias de 300 gramas de morango lavado, seco e cortado em fatias. Repita: bolo, calda, creme. Termine com creme por cima e deixe um dedo de espaço para a tampa."},
+      {t:"Leve à geladeira",d:"Feche os potes e leve à geladeira por pelo menos 4 horas. Se der, deixe de um dia para o outro: o bolo absorve a calda e fica muito melhor."}],
+    notas:[
+      "Os potes precisam estar completamente secos por dentro. Gota de água acelera o estrago e o bolo azeda antes do tempo.",
+      "Guarde sempre na geladeira e tire só na hora de servir. Na mesa da festa, não deixe passar de 2 horas fora do gelo: o creme leva leite condensado e creme de leite.",
+      "Duram 3 dias na geladeira. Com fruta fresca, coma em até 2 dias.",
+      "Para a versão de chocolate, junte 3 colheres (sopa) de chocolate em pó no creme, ainda no começo do cozimento.",
+      "Não use banana. Ela escurece dentro do pote e fica com aparência ruim no dia seguinte.",
+      "O bolo tem que estar frio. Bolo morno derrete o creme e mistura tudo."]},
   coxinha:{em:"🍗",nome:"Coxinha",rende:"~30 unidades",foto:"coxinha.webp",fotoPrep:"receitacoxinha.webp",
     ing:["2 xícaras (chá) de caldo de galinha bem temperado (500 ml)","2 colheres (sopa) de manteiga","4 xícaras (chá) de farinha de trigo (500 g), e mais um pouco para sovar","400 gramas de frango cozido e desfiado, já temperado e frio","3 ovos batidos com um garfo, para empanar","2 xícaras (chá) de farinha de rosca","1 litro de óleo para fritar"],
     etapas:[
@@ -351,15 +427,55 @@ const RECEITAS={
       "Se não tiver hortelã fresca, use 1 colher (sopa) de hortelã seca.",
       "Espremer bem o trigo é o passo mais importante. Trigo molhado não modela e o kibe desmancha no óleo.",
       "Dá para modelar e congelar cru. Frite direto do congelador, sem descongelar."]},
-  enroladinho:{em:"🌭",nome:"Enroladinho de salsicha",rende:"~20 unidades",
-    ing:["Massa de pão ou massa folhada","Salsichas cortadas ao meio","1 gema pra pincelar"],
-    modo:"Enrole cada pedaço de salsicha na massa, pincele a gema e asse a 180°C até dourar."},
-  pastel:{em:"🥟",nome:"Pastel",rende:"~20 unidades",
-    ing:["Massa de pastel (disco)","Recheio a gosto (carne, queijo, frango)","Óleo pra fritar"],
-    modo:"Recheie, feche bem as bordas com um garfo e frite em óleo quente até dourar dos dois lados."},
-  empadinha:{em:"🥧",nome:"Empadinha",rende:"~20 unidades",
-    ing:["Massa: farinha, manteiga, gema e sal","Recheio de frango ou palmito","1 gema pra pincelar"],
-    modo:"Forre forminhas com a massa, recheie, cubra com massa, pincele a gema e asse até dourar."},
+  enroladinho:{em:"🌭",nome:"Enroladinho de salsicha",rende:"~20 unidades",foto:"enrolado.webp",fotoPrep:"receitaenrolado.webp",
+    ing:["1 pacote de massa folhada pronta (400 g)","10 salsichas","1 gema de ovo","1 colher (sopa) de leite","1 colher (sopa) de gergelim ou orégano para salpicar (opcional)"],
+    etapas:[
+      {t:"Ferva e seque as salsichas",d:"Coloque 10 salsichas numa panela com água e deixe ferver por 3 minutos. Escorra e seque bem cada uma com papel toalha. Salsicha molhada faz a massa desenrolar no forno."},
+      {t:"Corte as salsichas ao meio",d:"Corte cada salsicha ao meio, no sentido do comprimento da salsicha mesmo, formando dois pedaços curtos. Você vai ficar com 20 pedaços."},
+      {t:"Corte a massa em tiras",d:"Descongele 1 pacote de massa folhada pronta (400 g) na geladeira, como diz o pacote. Abra a massa na bancada e corte em 20 tiras compridas, de mais ou menos dois dedos de largura."},
+      {t:"Enrole cada pedaço",d:"Enrole uma tira em volta de cada pedaço de salsicha, deixando a ponta da massa embaixo. Coloque numa assadeira forrada com papel manteiga, com espaço de dois dedos entre eles."},
+      {t:"Gele e preaqueça o forno",d:"Leve a assadeira à geladeira por 15 minutos e, nesse tempo, ligue o forno a 200 graus. O forno precisa estar bem quente antes de os enroladinhos entrarem."},
+      {t:"Pincele a gema com leite",d:"Misture 1 gema de ovo com 1 colher (sopa) de leite e pincele por cima dos enroladinhos. Se quiser, salpique 1 colher (sopa) de gergelim ou orégano para salpicar (opcional)."},
+      {t:"Asse até dourar",d:"Asse a 200 graus por uns 22 minutos, até ficarem inchados e bem dourados. Não abra o forno nos primeiros 15 minutos, senão a massa murcha."}],
+    notas:[
+      "Para fazer com massa de pão: use 500 g de massa, monte os enroladinhos, deixe crescer por 40 minutos cobertos com um pano e só então pincele e asse a 180 graus por uns 25 minutos.",
+      "Nunca pincele gema pura. Ela queima antes da massa assar e deixa gosto forte de ovo. É por isso que entra o leite junto.",
+      "A massa folhada tem que estar gelada quando entra no forno. Se ela amolecer enquanto você monta, volte tudo para a geladeira por 15 minutos.",
+      "Dá para montar e congelar cru na assadeira. Asse direto do congelador, só acrescentando uns 5 minutos.",
+      "Sirva morno. Massa folhada fria perde toda a graça."]},
+  pastel:{em:"🥟",nome:"Pastel",rende:"~20 unidades",foto:"pastel.webp",fotoPrep:"receitapastel.webp",
+    ing:["20 discos pequenos de massa de pastel (tamanho de festa)","400 gramas de carne moída","1 cebola média picadinha","2 dentes de alho picados","2 colheres (sopa) de azeite","3 colheres (sopa) de molho de tomate","2 colheres (sopa) de salsinha picada","1 colher (chá) de sal","1 tigelinha com água para selar as bordas","1 litro de óleo para fritar"],
+    etapas:[
+      {t:"Refogue a carne até secar",d:"Refogue 1 cebola média picadinha e 2 dentes de alho picados em 2 colheres (sopa) de azeite até murchar. Junte 400 gramas de carne moída e 1 colher (chá) de sal e cozinhe até a carne soltar toda a água e secar. Acrescente 3 colheres (sopa) de molho de tomate e deixe mais uns minutos, até apurar."},
+      {t:"Finalize e esfrie o recheio",d:"Desligue o fogo, misture 2 colheres (sopa) de salsinha picada e prove o sal. Espere esfriar por completo, uns 40 minutos. Recheio quente amolece a massa e faz o pastel abrir no óleo."},
+      {t:"Coloque o recheio no disco",d:"Coloque 1 colher (sopa) de recheio no meio de cada um dos 20 discos pequenos de massa de pastel (tamanho de festa). Não encha mais que isso: pastel muito cheio não fecha direito e estoura."},
+      {t:"Sele bem, tirando o ar",d:"Molhe o dedo em 1 tigelinha com água para selar as bordas e passe em toda a borda do disco. Dobre a massa e vá apertando de dentro para fora, empurrando o ar para fora antes de fechar a última ponta. Depois aperte a borda toda com um garfo."},
+      {t:"Esquente bem o óleo",d:"Esquente 1 litro de óleo para fritar em fogo médio. Para testar, encoste a ponta de um disco de massa no óleo: tem que borbulhar em volta na hora. Se demorar a borbulhar, o pastel vai encharcar de gordura."},
+      {t:"Frite regando com óleo por cima",d:"Frite 2 ou 3 por vez. Com uma escumadeira, jogue óleo quente por cima do pastel enquanto ele frita. É isso que forma as bolhas. Vire na metade do tempo. Leva uns 3 minutos no total."},
+      {t:"Escorra e sirva na hora",d:"Tire com a escumadeira e deixe escorrer em papel toalha, em pé se possível. Sirva em seguida."}],
+    notas:[
+      "Para o recheio de queijo: use 300 g de muçarela cortada em cubinhos e um pouco de orégano. Não use fatia fina, que derrete rápido demais e vaza.",
+      "Para o recheio de frango: mesma receita, trocando a carne moída por 400 g de frango cozido e desfiado.",
+      "Deixe os discos cobertos com um pano úmido enquanto monta. Massa de pastel resseca rápido e racha na hora de dobrar.",
+      "Frite só perto da hora de servir. Pastel murcha em uns 20 minutos e perde toda a crocância. Se precisar adiantar, monte tudo e congele cru, separando com plástico. Frite direto do congelador.",
+      "O óleo tem que ser fundo o bastante para o pastel boiar sem encostar no fundo da panela."]},
+  empadinha:{em:"🥧",nome:"Empadinha",rende:"~20 unidades",foto:"empada.webp",fotoPrep:"receitaempada.webp",
+    ing:["3 xícaras (chá) de farinha de trigo (400 g)","200 gramas de manteiga gelada, cortada em cubinhos","2 gemas para a massa","1 colher (chá) de sal","400 gramas de frango cozido e desfiado","1 cebola média picadinha","2 dentes de alho picados","2 colheres (sopa) de azeite","1 xícara (chá) de molho de tomate","4 colheres (sopa) de azeitona verde picada","2 colheres (sopa) de requeijão","2 colheres (sopa) de salsinha picada","1 gema para pincelar","1 colher (sopa) de leite","1 colher (sopa) de manteiga para untar as forminhas"],
+    etapas:[
+      {t:"Faça a massa sem sovar",d:"Numa tigela, misture 3 xícaras (chá) de farinha de trigo (400 g) com 1 colher (chá) de sal. Junte 200 gramas de manteiga gelada, cortada em cubinhos e vá apertando com a ponta dos dedos até virar uma farofa. Acrescente 2 gemas para a massa e junte tudo só até formar uma bola. Não sove: massa sovada fica dura."},
+      {t:"Leve a massa à geladeira",d:"Embrulhe a massa em plástico e leve à geladeira por 30 minutos. Sem esse descanso a massa encolhe e racha no forno."},
+      {t:"Refogue o recheio até secar",d:"Numa panela, refogue 1 cebola média picadinha e 2 dentes de alho picados em 2 colheres (sopa) de azeite até murchar. Junte 400 gramas de frango cozido e desfiado e 1 xícara (chá) de molho de tomate e cozinhe até secar bem, uns 10 minutos. O recheio tem que ficar úmido, mas sem molho escorrendo."},
+      {t:"Finalize e esfrie o recheio",d:"Desligue o fogo e misture 4 colheres (sopa) de azeitona verde picada, 2 colheres (sopa) de requeijão e 2 colheres (sopa) de salsinha picada. Prove o sal. Espere esfriar por completo, uns 40 minutos, antes de usar."},
+      {t:"Forre as forminhas",d:"Unte as forminhas com 1 colher (sopa) de manteiga para untar as forminhas. Pegue uma bolinha de massa e vá apertando com o dedo no fundo e nas laterais, deixando uma camada fina, da grossura de uma moeda. Guarde um pouco de massa para as tampas."},
+      {t:"Recheie e tampe",d:"Coloque o recheio frio até quase a borda. Faça discos de massa com a mão, tampe cada empadinha e aperte bem em volta para vedar. Se ficar aberta, o recheio vaza no forno."},
+      {t:"Preaqueça e pincele",d:"Ligue o forno a 180 graus. Misture 1 gema para pincelar com 1 colher (sopa) de leite e pincele por cima de cada empadinha."},
+      {t:"Asse e desenforme morna",d:"Asse por uns 30 minutos, até ficarem douradas por cima e soltando da forminha. Espere amornar antes de desenformar: quentes elas quebram, frias grudam."}],
+    notas:[
+      "Para a versão de palmito: use 400 g de palmito picadinho no lugar do frango e faça o mesmo refogado.",
+      "A massa vai quebrar enquanto você forra as forminhas. Isso é normal em massa podre, é só remendar com o dedo. Massa que não quebra é massa sovada demais, e essa fica dura.",
+      "Se a massa amolecer na sua mão enquanto você trabalha, volte tudo para a geladeira por 10 minutos.",
+      "O recheio precisa estar frio e sequinho. Recheio quente derrete a manteiga da massa e o fundo não assa.",
+      "Dá para montar e congelar cru nas forminhas. Asse direto do congelador, acrescentando uns 10 minutos."]},
 };
 
 /* ═══ KITS PRONTOS (templates) ═══ */
@@ -368,21 +484,19 @@ const KITS=[
     itens:[["50","Brigadeiros","brigadeiro"],["50","Coxinhas","coxinha"]],preco:60,custo:24},
   {id:"completo",em:"🎉",foto:"festakibe.webp",nome:"Kit Festa Completo",ocasiao:"Festa cheia — doce e salgado à vontade",
     itens:[["50","Brigadeiros","brigadeiro"],["50","Beijinhos","beijinho"],["50","Coxinhas","coxinha"],["50","Kibes","kibe"]],preco:100,custo:45},
-  {id:"docinhos",em:"🍫",nome:"Kit Só Docinhos",ocasiao:"Mesa de doces variada",
+  {id:"docinhos",em:"🍫",foto:"kituva.webp",nome:"Kit Só Docinhos",ocasiao:"Mesa de doces variada",
     itens:[["40","Brigadeiros","brigadeiro"],["30","Beijinhos","beijinho"],["30","Surpresas de uva","surpresa"]],preco:55,custo:22},
-  {id:"salgados",em:"🥟",nome:"Kit Só Salgados",ocasiao:"Salgadinho fresco pra festa",
+  {id:"salgados",em:"🥟",foto:"kitenrolado.webp",nome:"Kit Só Salgados",ocasiao:"Salgadinho fresco pra festa",
     itens:[["40","Coxinhas","coxinha"],["30","Kibes","kibe"],["30","Enroladinhos","enroladinho"]],preco:58,custo:26},
-  {id:"potes",em:"🍰",nome:"Kit Bolo no Pote",ocasiao:"O queridinho por encomenda",
+  {id:"potes",em:"🍰",foto:"kitbolopote.webp",nome:"Kit Bolo no Pote",ocasiao:"O queridinho por encomenda",
     itens:[["10","Bolos de pote","bolopote"]],preco:70,custo:28},
-  {id:"kids",em:"🧒",nome:"Kit Kids Colorido",ocasiao:"Festa infantil que criança ama",
+  {id:"kids",em:"🧒",foto:"kitninho.webp",nome:"Kit Kids Colorido",ocasiao:"Festa infantil que criança ama",
     itens:[["50","Docinhos coloridos","ninho"],["50","Coxinhas","coxinha"]],preco:60,custo:25},
-  {id:"cha",em:"🫖",nome:"Kit Chá da Tarde",ocasiao:"Chá de bebê, chá de panela",
+  {id:"cha",em:"🫖",foto:"kitempada.webp",nome:"Kit Chá da Tarde",ocasiao:"Chá de bebê, chá de panela",
     itens:[["30","Brigadeiros","brigadeiro"],["20","Cajuzinhos","cajuzinho"],["30","Empadinhas","empadinha"]],preco:65,custo:28},
-  {id:"gourmet",em:"✨",nome:"Kit Gourmet Premium",ocasiao:"Pra cobrar mais — a margem gorda",
+  {id:"gourmet",em:"✨",foto:"kitpastel.webp",nome:"Kit Gourmet Premium",ocasiao:"Pra cobrar mais — a margem gorda",
     itens:[["50","Brigadeiros gourmet","brigadeiro"],["30","Docinhos de Ninho","ninho"],["40","Salgados especiais","pastel"]],preco:100,custo:48},
-  {id:"mini",em:"🎈",nome:"Kit Mini Comemoração",ocasiao:"O de entrada, a partir de R$50",
-    itens:[["30","Brigadeiros","brigadeiro"],["30","Coxinhas","coxinha"]],preco:50,custo:20},
-  {id:"reuniao",em:"💼",nome:"Kit Reunião / Trabalho",ocasiao:"Escritório, evento, coffee break",
+  {id:"reuniao",em:"💼",foto:"kitcofe.webp",nome:"Kit Reunião / Trabalho",ocasiao:"Escritório, evento, coffee break",
     itens:[["40","Enroladinhos","enroladinho"],["20","Empadinhas","empadinha"],["20","Pastéis","pastel"]],preco:80,custo:34},
 ];
 
@@ -446,21 +560,61 @@ function removerFoto(id){delete fotos[id];salvarFotos();
 /* ═══ LISTA ═══ */
 function renderKits(){
   document.getElementById("listaKits").innerHTML=todosKits().map(k=>{
-    const d=dadosKit(k),lucro=d.preco-d.custo,fotoUser=fotos[k.id],foto=fotoUser||k.foto;
+    const d=dadosKit(k),lucro=d.preco-d.custo,margem=d.preco>0?Math.round(lucro/d.preco*100):0,fotoUser=fotos[k.id],foto=fotoUser||k.foto;
+    const semDados=d.preco<=0&&d.custo<=0;
+    const nivel=semDados?"":lucro<0?"neg":margem<30?"ap":"ok";
+    const pcCusto=d.preco>0?Math.min(100,Math.round(d.custo/d.preco*100)):0,pcLucro=Math.max(0,100-pcCusto);
     return `<button class="kit" onclick="abrirKit('${k.id}')">
       <div class="capa">${foto?`<img src="${foto}" alt="${k.nome}">`:`<span class="ph">${k.em||"🎁"}</span>`}
         ${k.meu?'<span class="badge">meu kit</span>':''}
         ${fotoUser||k.foto?'':'<span class="semfoto">📷 botar foto</span>'}</div>
       <div class="info"><div class="nome">${k.nome}</div><div class="desc">${k.ocasiao||""}</div></div>
-      <div class="rodape"><span class="preco">${brl0(d.preco)}</span>
-        <span class="lucro">${lucro<0?"⚠ prejuízo":"lucro "+brl0(lucro)}</span></div></button>`;}).join("");
+      <div class="rodape"><div class="topo">
+        <div class="cols">
+          <div class="col"><span class="cap">Vende por</span><span class="val">${brl0(d.preco)}</span></div>
+          <div class="col dir"><span class="cap">${lucro<0?"No vermelho":"Você lucra"}</span><span class="val ${nivel}">${lucro<0?"−"+brl0(Math.abs(lucro)):brl0(lucro)}</span></div>
+        </div>
+        ${semDados
+          ?`<div class="barra"></div>
+            <div class="leg"><span>defina preço e custo</span></div>`
+          :lucro<0
+          ?`<div class="barra"><i class="l neg" style="flex:1"></i></div>
+            <div class="leg"><span class="forte">⚠ o custo passou do preço</span></div>`
+          :`<div class="barra"><i class="c" style="flex:${pcCusto}"></i><i class="l ${nivel}" style="flex:${pcLucro}"></i></div>
+            <div class="leg"><span>custo ${pcCusto}%</span><span>lucro ${pcLucro}%</span></div>`}
+      </div></div></button>`;}).join("");
 }
 function abrirKit(id){estado.kitAberto=id;salvar();ir("kit");}
 
 /* ═══ DETALHE ═══ */
+/* blocos que dependem de preço/custo — ficam separados pra poder atualizar
+   sozinhos enquanto a usuária digita, sem recriar os campos e perder o foco */
+function htmlLucro(d){
+  const lucro=d.preco-d.custo,margem=d.preco>0?Math.round(lucro/d.preco*100):0,pcCusto=d.preco>0?Math.min(100,Math.round(d.custo/d.preco*100)):0;
+  return `<div class="lucroBox">
+      <div class="cap">${lucro<0?"Você está no prejuízo":"Seu lucro por kit"}</div>
+      <div class="big">${brl0(lucro)}</div>
+      <div class="sub">vende por ${brl0(d.preco)} · custa ${brl0(d.custo)} · margem ${margem}%</div>
+      <div class="split"><span style="flex:${Math.max(6,pcCusto)};background:#ffffff33">custo ${pcCusto}%</span><span style="flex:${Math.max(6,100-pcCusto)};background:#ffffff5a">lucro ${100-pcCusto}%</span></div>
+    </div>`;
+}
+function htmlAviso(d){
+  const lucro=d.preco-d.custo,margem=d.preco>0?Math.round(lucro/d.preco*100):0;
+  if(d.preco<=0&&d.custo<=0)return `<div class="aviso a"><b>Faltam seus números</b>Coloque por quanto você vende e quanto te custa pra eu calcular o lucro.</div>`;
+  return lucro<0?`<div class="aviso a"><b>Cuidado: no vermelho</b>Por esse preço você paga pra trabalhar. Suba o preço ou reveja o custo.</div>`
+    :margem<30?`<div class="aviso a"><b>Margem apertada</b>Lucrando pouco (${margem}%). O ideal em confeitaria é vender por ~3× o custo. Considere cobrar mais.</div>`
+    :`<div class="aviso o"><b>Margem saudável 👏</b>${margem}% de margem. Cada kit vendido põe ${brl0(lucro)} no seu bolso.</div>`;
+}
+function atualizarResumo(id){
+  const k=achaKit(id);if(!k)return;
+  const d=dadosKit(k);
+  const l=document.getElementById("kitLucro"),a=document.getElementById("kitAviso");
+  if(l)l.innerHTML=htmlLucro(d);
+  if(a)a.innerHTML=htmlAviso(d);
+}
 function renderKit(){
   const k=achaKit(estado.kitAberto)||todosKits()[0];
-  const d=dadosKit(k),lucro=d.preco-d.custo,margem=d.preco>0?Math.round(lucro/d.preco*100):0,pcCusto=d.preco>0?Math.min(100,Math.round(d.custo/d.preco*100)):0;
+  const d=dadosKit(k);
   const fotoUser=fotos[k.id],foto=fotoUser||k.foto;
   const itensHtml = k.meu
     ? `<p class="peq" style="white-space:pre-line;color:var(--tinta);margin:0">${(k.itens||"—")}</p>`
@@ -477,12 +631,7 @@ function renderKit(){
     <h1 class="disp" style="margin:2px 0 4px">${k.nome}</h1>
     <p class="lead" style="margin-bottom:14px">${k.ocasiao||""}</p>
 
-    <div class="lucroBox">
-      <div class="cap">${lucro<0?"Você está no prejuízo":"Seu lucro por kit"}</div>
-      <div class="big">${brl0(lucro)}</div>
-      <div class="sub">vende por ${brl0(d.preco)} · custa ${brl0(d.custo)} · margem ${margem}%</div>
-      <div class="split"><span style="flex:${Math.max(6,pcCusto)};background:#ffffff33">custo ${pcCusto}%</span><span style="flex:${Math.max(6,100-pcCusto)};background:#ffffff5a">lucro ${100-pcCusto}%</span></div>
-    </div>
+    <div id="kitLucro">${htmlLucro(d)}</div>
 
     <div class="secao"><h2 class="h2">Ajuste com os SEUS números</h2></div>
     <div class="card calc">
@@ -491,12 +640,9 @@ function renderKit(){
       <div class="row"><span class="lb">Quanto te custa${k.meu?"":`<small>estimativa: ${brl0(k.custo)}</small>`}</span>
         <div class="moeda"><span>R$</span><input inputmode="numeric" value="${d.custo}" oninput="ajustar('${k.id}','custo',this.value)"></div></div>
     </div>
-    ${lucro<0?`<div class="aviso a"><b>Cuidado: no vermelho</b>Por esse preço você paga pra trabalhar. Suba o preço ou reveja o custo.</div>`
-      :margem<30?`<div class="aviso a"><b>Margem apertada</b>Lucrando pouco (${margem}%). O ideal em confeitaria é vender por ~3× o custo. Considere cobrar mais.</div>`
-      :`<div class="aviso o"><b>Margem saudável 👏</b>${margem}% de margem. Cada kit vendido põe ${brl0(lucro)} no seu bolso.</div>`}
+    <div id="kitAviso">${htmlAviso(d)}</div>
     <div style="display:flex;gap:8px;flex-wrap:wrap">
       ${k.meu?`<button class="btn ghost mini" onclick="editarMeuKit('${k.id}')">✎ Editar kit</button>`:`<button class="btn ghost mini" onclick="resetKit('${k.id}')">↺ Valores sugeridos</button>`}
-      <button class="btn gold mini" onclick="compartilhar('${k.id}')">↗ Compartilhar</button>
     </div>
 
     <div class="secao"><h2 class="h2">O que vem no kit</h2></div>
@@ -504,8 +650,8 @@ function renderKit(){
 }
 function ajustar(id,campo,v){
   const k=achaKit(id);
-  if(k&&k.meu){const m=estado.meusKits.find(x=>x.id===id);if(m){m[campo]=parseNum(v);salvar();renderKit();}return;}
-  estado.ajustes[id]=estado.ajustes[id]||{};estado.ajustes[id][campo]=parseNum(v);salvar();renderKit();
+  if(k&&k.meu){const m=estado.meusKits.find(x=>x.id===id);if(m){m[campo]=parseNum(v);salvar();atualizarResumo(id);}return;}
+  estado.ajustes[id]=estado.ajustes[id]||{};estado.ajustes[id][campo]=parseNum(v);salvar();atualizarResumo(id);
 }
 function resetKit(id){delete estado.ajustes[id];salvar();renderKit();toast("Voltou aos valores sugeridos");}
 
@@ -562,8 +708,14 @@ function verReceita(r){ir("receitas");setTimeout(()=>{const els=[...document.que
   const idx=Object.keys(RECEITAS).indexOf(r);if(els[idx]){els[idx].open=true;els[idx].scrollIntoView({behavior:"smooth",block:"center"});}},120);}
 
 /* ═══ META ═══ */
-function renderMeta(){
-  const meta=estado.meta||3000;document.getElementById("metaVal").value=meta;
+/* digitar só grava e recalcula o corpo — não reescreve o campo, senão apaga o que a usuária digita */
+function setMeta(v){estado.meta=parseNum(v);salvar();renderMeta(false);}
+function renderMeta(sincronizarCampo=true){
+  const meta=estado.meta>0?estado.meta:0;
+  const campo=document.getElementById("metaVal");
+  if(sincronizarCampo&&campo)campo.value=meta>0?meta:"";
+  if(meta<=0){document.getElementById("metaCorpo").innerHTML=
+    `<div class="aviso a"><b>Digite sua meta</b>Quanto você quer ganhar por mês? Eu calculo quantos kits você precisa vender.</div>`;return;}
   const ks=todosKits(),lucros=ks.map(k=>{const d=dadosKit(k);return d.preco-d.custo;}).filter(l=>l>0);
   const medio=lucros.length?lucros.reduce((a,b)=>a+b,0)/lucros.length:1;
   const kitsMes=Math.ceil(meta/medio),kitsDia=(meta/medio/30);
@@ -578,7 +730,6 @@ function renderMeta(){
       (~${(meta/maior.l/30).toFixed(1)}/dia).</div>`:`<div class="aviso a"><b>Ajuste seus preços</b>Coloque preço e custo nos kits pra eu calcular sua meta.</div>`}
     <p class="peq" style="margin-top:4px">Quanto melhor você precifica, menos kits precisa vender pra chegar lá.</p>`;
 }
-document.getElementById("metaVal")&&document.getElementById("metaVal").addEventListener("change",e=>{estado.meta=parseNum(e.target.value)||3000;salvar();});
 
 /* ═══ UTIL ═══ */
 async function compartilhar(id){
@@ -593,7 +744,7 @@ function trocarTema(){const a=estado.tema||(matchMedia("(prefers-color-scheme: d
 /* ═══ BOOT ═══ */
 (function(){
   if(estado.tema)document.documentElement.dataset.tema=estado.tema;
-  document.title=CONFIG.produto+" · renda extra com kits a partir de R$50";
+  document.title=CONFIG.produto+" · renda extra com kits a partir de R$55";
   document.getElementById("cMarca").textContent=CONFIG.produto;
   document.getElementById("topoMarca").textContent=CONFIG.produto;
   document.getElementById("cTitulo").innerHTML=CONFIG.titulo;
@@ -601,7 +752,7 @@ function trocarTema(){const a=estado.tema||(matchMedia("(prefers-color-scheme: d
   const legal=`<b>Aviso.</b> O ${CONFIG.produto} é um material educativo de receitas e precificação. Os custos são
     <b>estimativas</b> que variam por região — ajuste aos preços do seu mercado. Não vende alimentos nem garante
     renda; o resultado depende da sua produção e divulgação. Vender comida caseira pode exigir MEI e boas práticas,
-    conforme seu município. Suas fotos e dados ficam só no seu aparelho.<br><br>${CONFIG.produto} · ${CONFIG.autora}`;
+    conforme seu município. Suas fotos e dados ficam só no seu aparelho.`;
   ["rodape1","rodape2","rodape3","rodape4","rodape5"].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML=legal;});
   ir(estado.aceito?"kits":"capa");
 })();
