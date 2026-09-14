@@ -91,6 +91,8 @@ button{font:inherit;cursor:pointer;color:inherit}
 .kit .capa{position:relative;width:100%;aspect-ratio:16/10;background:linear-gradient(150deg,var(--cereja-bg),var(--caramelo-bg));
   display:flex;align-items:center;justify-content:center;overflow:hidden}
 .kit .capa img{width:100%;height:100%;object-fit:cover}
+/* moldura quadrada: as fotos de kit sao 1:1, entao aparecem inteiras, sem corte nem barra */
+.kit .capa.inteira,.fotoBig.inteira{aspect-ratio:1/1}
 .kit .capa .ph{font-size:2.6rem;opacity:.8}
 .kit .capa .badge{position:absolute;top:10px;left:10px;background:#ffffffe6;color:#3a2620;font-size:.66rem;font-weight:700;
   letter-spacing:.06em;text-transform:uppercase;padding:5px 10px;border-radius:99px}
@@ -239,7 +241,7 @@ nav button[aria-current="true"] svg{stroke-width:1.9}
 <section data-tela="kits" class="pag anima" hidden style="padding-top:16px">
   <span class="rotulo">Meu catálogo</span>
   <h1 class="disp" style="margin:8px 0 6px">Seus kits <em>pra vender</em></h1>
-  <p class="lead">Toque num kit pra ver receitas, botar a foto e ajustar o lucro.</p>
+  <p class="lead">Toque num kit pra ver receitas e ajustar o lucro.</p>
   <div id="listaKits" style="margin-top:6px"></div>
   <div class="rodape" id="rodape2"></div>
 </section>
@@ -482,23 +484,23 @@ const RECEITAS={
 
 /* ═══ KITS PRONTOS (templates) ═══ */
 const KITS=[
-  {id:"aniv",em:"🎂",foto:"kitessencial.webp",nome:"Kit Aniversário Essencial",ocasiao:"O clássico que todo mundo pede",
+  {id:"aniv",em:"🎂",foto:"essencialkit.webp",fotoInteira:true,nome:"Kit Aniversário Essencial",ocasiao:"O clássico que todo mundo pede",
     itens:[["50","Brigadeiros","brigadeiro"],["50","Coxinhas","coxinha"]],preco:60,custo:24},
-  {id:"completo",em:"🎉",foto:"festakibe.webp",nome:"Kit Festa Completo",ocasiao:"Festa cheia — doce e salgado à vontade",
+  {id:"completo",em:"🎉",foto:"kitcompleto.webp",fotoInteira:true,nome:"Kit Festa Completo",ocasiao:"Festa cheia — doce e salgado à vontade",
     itens:[["50","Brigadeiros","brigadeiro"],["50","Beijinhos","beijinho"],["50","Coxinhas","coxinha"],["50","Kibes","kibe"]],preco:100,custo:45},
-  {id:"docinhos",em:"🍫",foto:"kituva.webp",nome:"Kit Só Docinhos",ocasiao:"Mesa de doces variada",
+  {id:"docinhos",em:"🍫",foto:"sodocinhos.webp",fotoInteira:true,nome:"Kit Só Docinhos",ocasiao:"Mesa de doces variada",
     itens:[["40","Brigadeiros","brigadeiro"],["30","Beijinhos","beijinho"],["30","Surpresas de uva","surpresa"]],preco:55,custo:22},
-  {id:"salgados",em:"🥟",foto:"kitenrolado.webp",nome:"Kit Só Salgados",ocasiao:"Salgadinho fresco pra festa",
+  {id:"salgados",em:"🥟",foto:"sosalgados.webp",fotoInteira:true,nome:"Kit Só Salgados",ocasiao:"Salgadinho fresco pra festa",
     itens:[["40","Coxinhas","coxinha"],["30","Kibes","kibe"],["30","Enroladinhos","enroladinho"]],preco:58,custo:26},
-  {id:"potes",em:"🍰",foto:"kitbolopote.webp",nome:"Kit Bolo no Pote",ocasiao:"O queridinho por encomenda",
+  {id:"potes",em:"🍰",foto:"kitpote.webp",fotoInteira:true,nome:"Kit Bolo no Pote",ocasiao:"O queridinho por encomenda",
     itens:[["10","Bolos de pote","bolopote"]],preco:70,custo:28},
-  {id:"kids",em:"🧒",foto:"kitninho.webp",nome:"Kit Kids Colorido",ocasiao:"Festa infantil que criança ama",
+  {id:"kids",em:"🧒",foto:"kidcolor.webp",fotoInteira:true,nome:"Kit Kids Colorido",ocasiao:"Festa infantil que criança ama",
     itens:[["50","Docinhos coloridos","ninho"],["50","Coxinhas","coxinha"]],preco:60,custo:25},
-  {id:"cha",em:"🫖",foto:"kitempada.webp",nome:"Kit Chá da Tarde",ocasiao:"Chá de bebê, chá de panela",
+  {id:"cha",em:"🫖",foto:"chadatarde.webp",fotoInteira:true,nome:"Kit Chá da Tarde",ocasiao:"Chá de bebê, chá de panela",
     itens:[["30","Brigadeiros","brigadeiro"],["20","Cajuzinhos","cajuzinho"],["30","Empadinhas","empadinha"]],preco:65,custo:28},
-  {id:"gourmet",em:"✨",foto:"kitpastel.webp",nome:"Kit Gourmet Premium",ocasiao:"Pra cobrar mais — a margem gorda",
+  {id:"gourmet",em:"✨",foto:"kitgoumert.webp",fotoInteira:true,nome:"Kit Gourmet Premium",ocasiao:"Pra cobrar mais — a margem gorda",
     itens:[["50","Brigadeiros gourmet","brigadeiro"],["30","Docinhos de Ninho","ninho"],["40","Salgados especiais","pastel"]],preco:100,custo:48},
-  {id:"reuniao",em:"💼",foto:"kitcofe.webp",nome:"Kit Reunião / Trabalho",ocasiao:"Escritório, evento, coffee break",
+  {id:"reuniao",em:"💼",foto:"reuniaokit.webp",fotoInteira:true,nome:"Kit Reunião / Trabalho",ocasiao:"Escritório, evento, coffee break",
     itens:[["40","Enroladinhos","enroladinho"],["20","Empadinhas","empadinha"],["20","Pastéis","pastel"]],preco:80,custo:34},
 ];
 
@@ -567,7 +569,7 @@ function renderKits(){
     const nivel=semDados?"":lucro<0?"neg":margem<30?"ap":"ok";
     const pcCusto=d.preco>0?Math.min(100,Math.round(d.custo/d.preco*100)):0,pcLucro=Math.max(0,100-pcCusto);
     return `<button class="kit" onclick="abrirKit('${k.id}')">
-      <div class="capa">${foto?`<img src="${foto}" alt="${k.nome}">`:`<span class="ph">${k.em||"🎁"}</span>`}
+      <div class="capa${k.fotoInteira?" inteira":""}">${foto?`<img src="${foto}" alt="${k.nome}">`:`<span class="ph">${k.em||"🎁"}</span>`}
         ${k.meu?'<span class="badge">meu kit</span>':''}
         ${fotoUser||k.foto?'':'<span class="semfoto">📷 botar foto</span>'}</div>
       <div class="info"><div class="nome">${k.nome}</div><div class="desc">${k.ocasiao||""}</div></div>
@@ -623,7 +625,7 @@ function renderKit(){
     : k.itens.map(([q,n,r])=>`<div class="item-linha"><span class="q num">${q}×</span><span class="n">${n}</span>
         <button class="ver" onclick="verReceita('${r}')">receita</button></div>`).join("");
   document.getElementById("kitCorpo").innerHTML=`
-    <div class="fotoBig">
+    <div class="fotoBig${k.fotoInteira?" inteira":""}">
       ${foto?`<img src="${foto}" alt="${k.nome}">`:`<span class="ph">${k.em||"🎁"}</span>`}
       ${k.foto&&!fotoUser?"":`<div class="acoes">
         <label>📷 ${fotoUser?"Trocar":"Botar foto"}<input type="file" accept="image/*" onchange="onFoto('${k.id}',this)"></label>
